@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mousqueton</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{css/mousqueton.css}"  rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+          <ul class="nav navbar-nav">
+            <li> <a href="index">Accueil</a> </li>
+            <li> <a href="sites">Liste des Sites</a> </li>
+            <li> <a href="proposersite">Proposer un Site</a> </li>
+            <li> <a href="recherchersite">Rechercher un Site</a> </li>
+            <li> <a href="topos">Topos</a> </li>
+            <li class="active"> <a href="mestopos">Mes topos</a> </li>
+            <li> <a href="emprunter-topo">Emprunter un Topo</a> </li>
+          </ul>
+        </div>
+      </nav>
+       <header class="page-header">
+        <h1>Liste de mes topos</h1>
+      </header>
+          <table class="table table-striped table-bordered">
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Lieu</th>
+                    <th>Date de parution</th>
+                    <th>Disponible au prêt ?</th>
+                    <th>Changer la dispo</th>
+                    <th>Suppression</th>
+                </tr>
+                <tr th:each ="topo : ${topos}">
+
+                    <td th:utext="${topo.nom}">...</td>
+                    <td th:utext="${topo.description}">...</td>
+                    <td th:utext="${topo.lieu}">...</td>
+                    <td th:utext="${topo.dateParution}">...</td>
+                    <td th:utext="${topo.dispoPret} ? 'Oui' : 'Non'">...</td>
+
+                    <td>
+                        <span th:if="${topo.userEmprunteur} == null">
+                            <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/mestopos/modifDispoPret}" method="post">
+                                <input type="hidden"  th:value="${topo.id}" name="idTopo"/>
+                                <button type="submit" class="btn btn-secondary">Rendre dispo / indispo</button>
+                            </form>
+                        </span>
+                        <span th:if="${topo.dispoPret}">
+                            <span th:if="${topo.userEmprunteur} != null">
+                                <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/mestopos/accepterEmprunt}" method="post">
+                                    <input type="hidden"  th:value="${topo.id}" name="idTopo"/>
+                                    <button type="submit" class="btn btn-warning">Accepter emprunt</button>
+                                </form>
+                            </span>
+                        </span>
+                        <span th:if="!${topo.dispoPret}">
+                            <span th:if="${topo.userEmprunteur} != null">
+                                <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/mestopos/retourEmprunt}" method="post">
+                                    <input type="hidden"  th:value="${topo.id}" name="idTopo"/>
+                                    <button type="submit" class="btn btn-success">Retour emprunt</button>
+                                </form>
+                            </span>
+                        </span>
+                    </td>
+                    <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/mestopos/supprimerTopo}" method="post">
+                        <td th:if="${topo.userEmprunteur} == null">
+                            <input type="hidden"  th:value="${topo.id}" name="idTopo"/>
+                            <button type="submit" class="btn btn-primary">Supprimer</button>
+                        </td>
+                        <td th:if="${topo.userEmprunteur} != null">Emprunt en cours
+                        </td>
+                    </form>
+                </tr>
+            </table>
+            <div class="btn-group">
+                <a href="/ajouttopo" class="btn btn-primary active">Ajouter un topo</a>
+            </div>
+        </div>
+  </body>
+</html>
+

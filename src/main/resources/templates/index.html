@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+  <head>
+    <meta charset="utf-8" />
+    <title>Mousqueton</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link th:href="@{css/mousqueton.css}" rel="stylesheet" />
+  </head>
+  <body>
+  <div class="container">
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav">
+        <li class="active"> <a href="index">Accueil</a> </li>
+        <li> <a href="sites">Liste des Sites</a> </li>
+        <li> <a href="proposersite">Proposer un Site</a> </li>
+        <li> <a href="recherchersite">Rechercher un Site</a> </li>
+        <li> <a href="topos">Topos</a> </li>
+        <li> <a href="mestopos">Mes topos</a> </li>
+        <li> <a href="emprunter-topo">Emprunter un Topo</a> </li>
+      </ul>
+    </div>
+  </nav>
+
+    <header class="page-header">
+        <h1>Mousqueton, partageons nos spots !</h1>
+    </header>
+    <div class="row">
+      <div class="col-lg-12 hidden-xs"><img class="img-thumbnail center-block"  th:src="@{images/climbing720.png}" alt="Escalade d'un rocher en forêt" /></div>
+      <div class="col-lg-12 visible-xs"><img class="img-thumbnail center-block" th:src="@{images/climbing.png}" alt="Escalade d'un rocher en forêt" /></div>
+    </div>
+  </div>
+  <footer>
+    <div class="container">
+        <!-- this is footer -->
+        © 2019 dumaya.dev
+      <div th:if="${user != null}">
+        | Utilisateur connecté: <span th:text="${user.getEmail()}"></span>
+        | Roles:
+          <ul th:each ="role : ${roles}">
+            <li th:utext="${role.getRole()}">...</li>
+          </ul>
+        | <a th:href="@{/logout}">Sign Out</a>
+      </div>
+    </div>
+   </footer>
+
+  </body>
+</html>

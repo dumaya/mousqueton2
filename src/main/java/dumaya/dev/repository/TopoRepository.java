@@ -14,7 +14,7 @@ public interface TopoRepository extends JpaRepository<Topo, Long> {
 
     List<Topo> findAllByDispoPretTrueAndUserEmprunteurIsNull();
 
-    Topo findByIdAndDispoPretTrueAndUserEmprunteurIsNull(long id);
+    Topo findByIdAndDispoPretTrueAndUserEmprunteurIsNull(int id);
 
     Topo findByIdAndUserEmprunteurIsNull(int id);
 

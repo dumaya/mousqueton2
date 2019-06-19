@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -45,10 +46,11 @@ public class TopoController {
     }
 
     @RequestMapping("/index")
-    public String index(Model model) {
+    public String index(Model model, HttpSession httpSession) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         if (user != null) {
+            httpSession.setAttribute("userSession",user);
             Set<Role> roles = user.getRoles();
             model.addAttribute("user", user);
             model.addAttribute("roles", roles);

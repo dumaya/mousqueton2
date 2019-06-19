@@ -33,14 +33,11 @@
   <footer>
     <div class="container">
         <!-- this is footer -->
-        © 2019 dumaya.dev
+      © 2019 dumaya.dev
       <div th:if="${user != null}">
-        | Utilisateur connecté: <span th:text="${user.getEmail()}"></span>
-        | Roles:
-          <ul th:each ="role : ${roles}">
-            <li th:utext="${role.getRole()}">...</li>
-          </ul>
-        | <a th:href="@{/logout}">Sign Out</a>
+        Utilisateur connecté: <span th:text="${user.getEmail()}"></span>
+        | Roles: <div th:each ="role : ${roles}" th:utext="${role.getRole()} + ' '" th:remove="tag"></div>
+        | <a th:href="@{/logout}">Se deconnecter</a>
       </div>
     </div>
    </footer>

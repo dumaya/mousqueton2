@@ -10,7 +10,7 @@
 </head>
 <body>
 	<form th:action="@{/login}" method="get">
-		<button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
+		<button class="btn btn-md btn-warning btn-block" type="Submit">Aller à la page de connection</button>
 	</form>	
 	
 	<div class="container">
@@ -19,12 +19,12 @@
 				<form autocomplete="off" action="#" th:action="@{/registration}"
 					th:object="${user}" method="post" class="form-horizontal"
 					role="form">
-					<h2>Registration Form</h2>
+					<h2>Formulaire de création de compte</h2>
 					<div class="form-group">
 						<div class="col-sm-9">
 						<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
 								class="validation-message"></label>
-						<input type="text" th:field="*{name}" placeholder="Name"
+						<input type="text" th:field="*{name}" placeholder="Nom"
 								class="form-control" /> 
 						</div>
 					</div>
@@ -34,7 +34,7 @@
 						<label	th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
 								class="validation-message"></label>
 							<input type="text" th:field="*{lastName}"
-								placeholder="Last Name" class="form-control" /> 
+								placeholder="Prénom" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -48,7 +48,7 @@
 					<div class="form-group">
 						<div class="col-sm-9">
 							<input type="password" th:field="*{password}"
-								placeholder="Password" class="form-control" /> <label
+								placeholder="Mot de passe" class="form-control" /> <label
 								th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
 								class="validation-message"></label>
 						</div>
@@ -56,7 +56,7 @@
 
 					<div class="form-group">
 						<div class="col-sm-9">
-							<button type="submit" class="btn btn-primary btn-block">Register User</button>
+							<button type="submit" class="btn btn-primary btn-block">Enregistrer le compte</button>
 						</div>
 					</div>
 					

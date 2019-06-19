@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mousqueton</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{css/mousqueton.css}"  rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+          <ul class="nav navbar-nav">
+            <li> <a href="index">Accueil</a> </li>
+            <li class="active"> <a href="sites">Liste des Sites</a> </li>
+            <li> <a href="proposersite">Proposer un Site</a> </li>
+            <li> <a href="recherchersite">Rechercher un Site</a> </li>
+            <li> <a href="topos">Topos</a> </li>
+            <li > <a href="mestopos">Mes topos</a> </li>
+            <li> <a href="emprunter-topo">Emprunter un Topo</a> </li>
+          </ul>
+        </div>
+      </nav>
+       <header class="page-header">
+        <h1>Liste des sites</h1>
+      </header>
+          <table class="table table-striped table-bordered">
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Lieu</th>
+                    <th>Cotations</th>
+                    <th>Type de roche</th>
+                    <th>Ancrage</th>
+                    <th>Relais</th>
+                    <th>Altitude</th>
+                    <th>Orientation</th>
+                    <th>Date de mise à jour</th>
+                </tr>
+                <tr th:each ="site : ${sites}">
+
+                    <td th:utext="${site.nom}">...</td>
+                    <td th:utext="${site.description}">...</td>
+                    <td th:utext="${site.lieu}">...</td>
+                    <td th:utext="'Min:' + ${site.cotationMin} + ' Max:' + ${site.cotationMax}">...</td>
+                    <td th:utext="${site.typeRoche}">...</td>
+                    <td th:utext="${site.ancrage}">...</td>
+                    <td th:utext="${site.relais}">...</td>
+                    <td th:utext="${site.altitude}">...</td>
+                    <td th:utext="${site.orientation}">...</td>
+                    <td th:utext="${site.dateMaj}">...</td>
+                </tr>
+            </table>
+            <div class="btn-group">
+                <a href="/ajoutsite" class="btn btn-primary active">Ajouter un site</a>
+            </div>
+        </div>
+  </body>
+</html>
+

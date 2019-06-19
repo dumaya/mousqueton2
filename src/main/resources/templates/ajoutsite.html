@@ -22,14 +22,14 @@
         </div>
       </nav>
        <header class="page-header">
-        <h1>Ajout d'un topo</h1>
+        <h1>Ajout d'un site</h1>
       </header>
 
       <div class="row">
-        <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/ajouttopo}" method="post" >
-         <legend>Ajout d'un topo dans ma liste</legend>
+        <form data-toggle="validator" role="form" th:object="${site}" th:action="@{/ajoutsite}" method="post" >
+         <legend>Ajout d'un site</legend>
           <div class="form-group">
-            <label for="nom">Nom du Topo ou du Spot</label>
+            <label for="nom">Nom du Site</label>
             <input type="text" class="form-control" th:field="*{nom}" id="nom"  />
           </div>
           <div class="form-group">
@@ -41,23 +41,35 @@
             <input type="text" class="form-control" th:field="*{lieu}" id="lieu" required="required" />
           </div>
           <div class="form-group">
-            <label for="auteur">Auteur</label>
-            <input type="text" class="form-control" th:field="*{auteur}" id="auteur"/>
+            <label for="typeRoche">Type de Roche</label>
+            <input type="text" class="form-control" th:field="*{typeRoche}" id="typeRoche"/>
           </div>
           <div class="form-group">
-            <label for="dispoPret">Topo disponible au prêt ?</label>
-            <input class="checkbox" type="checkbox" th:field="*{dispoPret}" id="dispoPret" value="Topo disponible au prêt ?"/>
+            <label for="ancrage">Ancrage</label>
+            <input type="text" class="form-control" th:field="*{ancrage}" id="ancrage" />
           </div>
+            <div class="form-group">
+                <label for="relais">Relais</label>
+                <input type="text" class="form-control" th:field="*{relais}" id="relais" />
+            </div>
+            <div class="form-group">
+                <label for="altitude">Altitude</label>
+                <input type="text" class="form-control" th:field="*{altitude}" id="altitude" />
+            </div>
+            <div class="form-group">
+                <label for="orientation">Orientation</label>
+                <input type="text" class="form-control" th:field="*{orientation}" id="orientation" />
+            </div>
           <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
           <!-- Check if errorMessage is not null and not empty -->
 
-          <div th:if="${erreurSaisieTopo}" th:utext="${erreurSaisieTopo}" class="bg-danger">
+          <div th:if="${erreurSaisieSite}" th:utext="${erreurSaisieSite}" class="bg-danger">
           </div>
 
       </div>
         <div class="btn-group">
-            <a href="/mestopos" class="btn btn-secondary active">Retourner à la liste des topos</a>
+            <a href="/sites" class="btn btn-secondary active">Retourner à la liste des sites</a>
         </div>
      </div>
   </body>

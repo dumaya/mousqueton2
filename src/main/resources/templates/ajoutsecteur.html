@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mousqueton</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{css/mousqueton.css}" href="../static/css/mousqueton.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+          <ul class="nav navbar-nav">
+            <li> <a href="index">Accueil</a> </li>
+            <li> <a href="sites">Liste des Sites</a> </li>
+            <li> <a href="proposersite">Proposer un Site</a> </li>
+            <li> <a href="recherchersite">Rechercher un Site</a> </li>
+            <li> <a href="topos">Topos</a> </li>
+            <li> <a href="mestopos">Mes topos</a> </li>
+            <li> <a href="empruntertopo">Emprunter un Topo</a> </li>
+          </ul>
+        </div>
+      </nav>
+       <header class="page-header">
+        <h1>Ajout d'un secteur</h1>
+      </header>
+
+      <div class="row">
+        <form data-toggle="validator" role="form" th:object="${secteur}" th:action="@{/ajoutsecteur(idSite=${site.id})}" method="post" >
+         <legend>Ajout d'un secteur</legend>
+          <div class="form-group">
+            <label for="nom">Nom du Secteur</label>
+            <input type="text" class="form-control" th:field="*{nom}" id="nom"  />
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="textarea"  class="form-control" th:field="*{description}" id="description" ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+          <!-- Check if errorMessage is not null and not empty -->
+
+          <div th:if="${erreurSaisieSecteur}" th:utext="${erreurSaisieSecteur}" class="bg-danger">
+          </div>
+
+      </div>
+        <div class="btn-group">
+            <a th:href="@{/secteurs.html(idSite=${site.id})}" class="btn btn-primary active">Retourner à la description du site</a>
+        </div>
+     </div>
+  </body>
+</html>
+

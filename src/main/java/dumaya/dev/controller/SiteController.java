@@ -1,5 +1,6 @@
 package dumaya.dev.controller;
 
+import dumaya.dev.model.Secteur;
 import dumaya.dev.model.Site;
 import dumaya.dev.model.Topo;
 import dumaya.dev.model.User;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -68,6 +67,42 @@ public class SiteController {
         } else {
             siteService.enregistrer(site);
             return "redirect:/sites";
+        }
+    }
+    @GetMapping("/secteurs")
+    public String affichelesSecteurs(Model model, @RequestParam("idSite") int idSite) {
+        LOGGER.debug("page afficher les secteurs d'un site");
+        Site site = siteService.getSite(idSite);
+        model.addAttribute("site", site);
+        return "secteurs";
+    }
+
+    @GetMapping("/ajoutsecteur")
+    public String ajoutSescteur(Model model,@RequestParam("idSite") int idSite) {
+
+        /* Formulaire de création d'un secteur */
+        LOGGER.debug("Init formulaire secteur");
+        Secteur secteur = new Secteur();
+        model.addAttribute("site", siteService.getSite(idSite));
+        model.addAttribute("secteur", secteur);
+
+        return "ajoutsecteur";
+    }
+
+    @PostMapping(value = "/ajoutsecteur")
+    public String proposerSecteurSubmit(Model model, @Valid @ModelAttribute("secteur") Secteur secteur, @RequestParam("idSite") int idSite, BindingResult result) {
+
+        LOGGER.debug("submit du formulaire secteur");
+
+        if (result.hasErrors()){
+            /** Garder la liste des secteurs de l'utilisateur */
+            /**List<Secteur> sites= siteService.listeSecteurs();
+            model.addAttribute("secteurs", secteurs);
+            model.addAttribute("erreurSaisieSite", erreurSaisieSite);*/
+            return "ajouttopo";
+        } else {
+            siteService.ajoutSecteur(idSite, secteur);
+            return "redirect:/secteurs";
         }
     }
 }

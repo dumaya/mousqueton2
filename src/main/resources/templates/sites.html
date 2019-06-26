@@ -36,6 +36,7 @@
                     <th>Altitude</th>
                     <th>Orientation</th>
                     <th>Date de mise à jour</th>
+                    <th>Détails du site</th>
                 </tr>
                 <tr th:each ="site : ${sites}">
 
@@ -49,6 +50,12 @@
                     <td th:utext="${site.altitude}">...</td>
                     <td th:utext="${site.orientation}">...</td>
                     <td th:utext="${site.dateMaj}">...</td>
+                    <td>
+                        <a th:href="@{/secteurs(idSite=${site.id})}">
+                                    <input type="hidden"  th:value="${site.id}" name="idSite"/>
+                                    <button type="submit" class="btn btn-success">Voir</button>
+                        </a>
+                    </td>
                 </tr>
             </table>
             <div class="btn-group">

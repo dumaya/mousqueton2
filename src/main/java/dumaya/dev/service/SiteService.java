@@ -1,5 +1,6 @@
 package dumaya.dev.service;
 
+import dumaya.dev.model.Secteur;
 import dumaya.dev.model.Site;
 import dumaya.dev.model.Topo;
 import dumaya.dev.model.User;
@@ -33,4 +34,13 @@ public class SiteService {
         siteRepository.save(site);
     }
 
+    public Site getSite(int siteId) {
+        return siteRepository.findById(siteId);
+    }
+
+    public void ajoutSecteur(int idSite, Secteur secteur) {
+        Site site = siteRepository.findById(idSite);
+        site.getSecteurs().add(secteur);
+        siteRepository.save(site);
+    }
 }

@@ -13,7 +13,7 @@ public class Secteur implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false, length = 40)
     @NotBlank
@@ -27,4 +27,24 @@ public class Secteur implements Serializable {
 
     @ManyToOne
     private Site site;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getDateMaj() {
+        return dateMaj;
+    }
 }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mousqueton</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{css/mousqueton.css}"  rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+          <ul class="nav navbar-nav">
+            <li> <a href="index">Accueil</a> </li>
+            <li class="active"> <a href="sites">Liste des Sites</a> </li>
+            <li> <a href="proposersite">Proposer un Site</a> </li>
+            <li> <a href="recherchersite">Rechercher un Site</a> </li>
+            <li> <a href="topos">Topos</a> </li>
+            <li > <a href="mestopos">Mes topos</a> </li>
+            <li> <a href="emprunter-topo">Emprunter un Topo</a> </li>
+          </ul>
+        </div>
+      </nav>
+       <header class="page-header">
+        <h1>Le site :<div th:utext="${site.nom}"></div></h1>
+      </header>
+        <table class="table table-striped table-bordered">
+            <tr> <th>Nom</th> <td th:utext="${site.nom}"></td> </tr>
+            <tr> <th>Description</th> <td th:utext="${site.description}"></td> </tr>
+            <tr> <th>Lieu</th> <td th:utext="${site.lieu}"></td> </tr>
+            <tr> <th>Cotations</th> <td th:utext="'Min:' + ${site.cotationMin} + ' Max:' + ${site.cotationMax}"></td> </tr>
+            <tr> <th>Type Roche</th> <td th:utext="${site.typeRoche}"></td> </tr>
+            <tr> <th>Ancrage</th> <td th:utext="${site.ancrage}"></td> </tr>
+            <tr> <th>Relais</th> <td th:utext="${site.relais}"></td> </tr>
+            <tr> <th>Altitude</th> <td th:utext="${site.altitude}"></td> </tr>
+            <tr> <th>Orientation</th> <td th:utext="${site.orientation}"></td> </tr>
+            <tr> <th>Date de MAJ</th> <td th:utext="${site.dateMaj}"></td> </tr>
+        </table>
+        <h2>Secteurs :</h2>
+        <table class="table table-striped table-bordered">
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Date de mise à jour</th>
+                </tr>
+                <tr th:each ="secteur : ${site.getSecteurs()}">
+                    <td th:utext="${secteur.nom}">...</td>
+                    <td th:utext="${secteur.description}">...</td>
+                    <td th:utext="${secteur.dateMaj}">...</td>
+                </tr>
+            </table>
+            <div class="btn-group">
+                <a th:href="@{/ajoutsecteur(idSite=${site.id})}" class="btn btn-primary active">Ajouter un secteur à ce site</a>
+            </div>
+        </div>
+  </body>
+</html>
+

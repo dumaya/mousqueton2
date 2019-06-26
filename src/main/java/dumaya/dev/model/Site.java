@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -11,7 +12,7 @@ public class Site implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false, length = 40)
     @NotNull
@@ -47,11 +48,22 @@ public class Site implements Serializable {
     @Column(name = "dateMaj", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
     private Date dateMaj;
 
-    public Long getId() {
+    @OneToMany(mappedBy="site")
+    private List<Secteur> secteurs;
+
+    public List<Secteur> getSecteurs() {
+        return secteurs;
+    }
+
+    public void setSecteurs(List<Secteur> secteurs) {
+        this.secteurs = secteurs;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

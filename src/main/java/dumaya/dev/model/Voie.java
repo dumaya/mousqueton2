@@ -13,7 +13,7 @@ public class Voie implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false, length = 40)
     @NotBlank

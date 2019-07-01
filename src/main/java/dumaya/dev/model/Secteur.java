@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -28,6 +29,9 @@ public class Secteur implements Serializable {
     @ManyToOne
     private Site site;
 
+    @OneToMany(mappedBy="secteur")
+    private List<Voie> voies;
+
     public String getNom() {
         return nom;
     }
@@ -46,5 +50,17 @@ public class Secteur implements Serializable {
 
     public Date getDateMaj() {
         return dateMaj;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public List<Voie> getVoies() {
+        return voies;
     }
 }

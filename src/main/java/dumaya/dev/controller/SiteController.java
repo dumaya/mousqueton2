@@ -17,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -33,6 +32,9 @@ public class SiteController {
 
     @Value("${erreur.saisie.site}")
     private String erreurSaisieSite;
+
+    @Value("${erreur.saisie.secteur}")
+    private String erreurSaisieSecteur;
 
     @GetMapping("/sites")
     public String affichelesSites(Model model) {
@@ -69,6 +71,8 @@ public class SiteController {
             return "redirect:/sites";
         }
     }
+
+    // un Site et les secteurs associés
     @GetMapping("/secteurs")
     public String affichelesSecteurs(Model model, @RequestParam("idSite") int idSite) {
         LOGGER.debug("page afficher les secteurs d'un site");
@@ -95,15 +99,25 @@ public class SiteController {
         LOGGER.debug("submit du formulaire secteur");
 
         if (result.hasErrors()){
-            /** Garder la liste des secteurs de l'utilisateur */
-            /**List<Secteur> sites= siteService.listeSecteurs();
-            model.addAttribute("secteurs", secteurs);
-            model.addAttribute("erreurSaisieSite", erreurSaisieSite);*/
-            return "ajouttopo";
+            LOGGER.debug("erreur du formulaire secteur");
+            model.addAttribute("erreurSaisieSecteur", erreurSaisieSecteur);
+            return "secteurs";
         } else {
             siteService.ajoutSecteur(idSite, secteur);
-            return "redirect:/secteurs";
+            Site site = siteService.getSite(idSite);
+            model.addAttribute("site", site);
+            return "secteurs";
         }
+    }
+// Un secteur et les voies associées
+    @GetMapping("/voies")
+    public String affichelesVoies(Model model, @RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur) {
+        LOGGER.debug("page afficher les voies d'un secteur");
+        Site site = siteService.getSite(idSite);
+        Secteur secteur = siteService.getSecteur(idSecteur);
+        model.addAttribute("site", site);
+        model.addAttribute("secteur", secteur);
+        return "voies";
     }
 }
 

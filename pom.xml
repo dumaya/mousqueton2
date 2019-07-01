@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.macrosoftas</groupId>
-	<artifactId>archijavaspringboot</artifactId>
+	<groupId>dumaya.dev</groupId>
+	<artifactId>mousqueton</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Archija</name>
+	<name>Mousqueton</name>
 	<description>Architecture de Base JAVA JEE Spring Boot JPA  Tymeleaf, HTML5, CSS, JS</description>
 
 	<parent>

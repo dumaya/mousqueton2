@@ -34,20 +34,23 @@
             <tr> <th>Orientation</th> <td th:utext="${site.orientation}"></td> </tr>
             <tr> <th>Date de MAJ</th> <td th:utext="${site.dateMaj}"></td> </tr>
         </table>
-        <h2>Secteurs :</h2>
+        <h2>Secteur :<div th:utext="${secteur.nom}"></h2>
+        <div th:utext="${secteur.description}"></div>
+
+        <h2>Voies :</h2>
         <table class="table table-striped table-bordered">
                 <tr>
                     <th>Nom</th>
                     <th>Description</th>
                     <th>Date de mise à jour</th>
-                    <th>Détails du secteur</th>
+                    <th>Détails de la voie</th>
                 </tr>
-                <tr th:each ="secteur : ${site.getSecteurs()}">
+                <tr th:each ="voie : ${secteur}">
                     <td th:utext="${secteur.nom}">...</td>
                     <td th:utext="${secteur.description}">...</td>
                     <td th:utext="${secteur.dateMaj}">...</td>
                     <td>
-                        <a th:href="@{/voies(idSite=${site.id},idSecteur=${secteur.id})}">
+                        <a th:href="@{/voie(idSite=${site.id},idSecteur=${secteur.id})}">
                             <input type="hidden"  th:value="${site.id}" name="idSite"/>
                             <input type="hidden"  th:value="${secteur.id}" name="idSecteur"/>
                             <button type="submit" class="btn btn-success">Voir</button>

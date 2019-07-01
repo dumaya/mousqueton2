@@ -30,4 +30,44 @@ public class Voie implements Serializable {
 
     @ManyToOne
     private Secteur secteur;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCotation() {
+        return cotation;
+    }
+
+    public void setCotation(String cotation) {
+        this.cotation = cotation;
+    }
+
+    public Secteur getSecteur() {
+        return secteur;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Date getDateMaj() {
+        return dateMaj;
+    }
 }

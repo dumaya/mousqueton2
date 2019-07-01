@@ -13,11 +13,9 @@
           <ul class="nav navbar-nav">
             <li> <a href="index">Accueil</a> </li>
             <li> <a href="sites">Liste des Sites</a> </li>
-            <li> <a href="proposersite">Proposer un Site</a> </li>
             <li> <a href="recherchersite">Rechercher un Site</a> </li>
             <li> <a href="topos">Topos</a> </li>
             <li> <a href="mestopos">Mes topos</a> </li>
-            <li> <a href="empruntertopo">Emprunter un Topo</a> </li>
           </ul>
         </div>
       </nav>
@@ -39,13 +37,13 @@
           <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
           <!-- Check if errorMessage is not null and not empty -->
-
           <div th:if="${erreurSaisieSecteur}" th:utext="${erreurSaisieSecteur}" class="bg-danger">
           </div>
 
       </div>
         <div class="btn-group">
-            <a th:href="@{/secteurs.html(idSite=${site.id})}" class="btn btn-primary active">Retourner à la description du site</a>
+            <a th:href="@{/secteurs(idSite=${site.id})}" class="btn btn-primary active">Retourner à la description du site</a>
+            <input type="hidden"  th:value="${site.id}" name="idSite"/>
         </div>
      </div>
   </body>

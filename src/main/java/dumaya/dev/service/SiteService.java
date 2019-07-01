@@ -2,13 +2,11 @@ package dumaya.dev.service;
 
 import dumaya.dev.model.Secteur;
 import dumaya.dev.model.Site;
-import dumaya.dev.model.Topo;
-import dumaya.dev.model.User;
+import dumaya.dev.repository.SecteurRepository;
 import dumaya.dev.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.List;
 
@@ -17,6 +15,8 @@ public class SiteService {
 
     @Autowired
     private SiteRepository siteRepository;
+    @Autowired
+    private SecteurRepository secteurRepository;
 
     /**
      * @return liste de tous les topos en base
@@ -40,7 +40,18 @@ public class SiteService {
 
     public void ajoutSecteur(int idSite, Secteur secteur) {
         Site site = siteRepository.findById(idSite);
-        site.getSecteurs().add(secteur);
+        Secteur secteurEnreg = new Secteur();
+        secteurEnreg.setSite(site);
+        secteurEnreg.setDescription(secteur.getDescription());
+        secteurEnreg.setNom(secteur.getNom());
+        secteurRepository.save(secteurEnreg);
+        List<Secteur> secteurs = site.getSecteurs();
+        secteurs.add(secteurEnreg);
+        site.setSecteurs(secteurs);
         siteRepository.save(site);
+    }
+
+    public Secteur getSecteur(int idSecteur) {
+        return secteurRepository.findById(idSecteur);
     }
 }

@@ -86,7 +86,6 @@ public class TopoController {
         return "ajouttopo";
     }
 
-
     @PostMapping(value = "/ajouttopo")
     public String proposerTopoSubmit(Model model, @Valid @ModelAttribute("topo") Topo topo, BindingResult result, Principal principal) {
 

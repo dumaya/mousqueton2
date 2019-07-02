@@ -28,4 +28,43 @@ public class Longueur implements Serializable {
     @ManyToOne
     private Voie voie;
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCotation() {
+        return cotation;
+    }
+
+    public void setCotation(String cotation) {
+        this.cotation = cotation;
+    }
+
+    public Voie getVoie() {
+        return voie;
+    }
+
+    public void setVoie(Voie voie) {
+        this.voie = voie;
+    }
+
+    public Date getDateMaj() {
+        return dateMaj;
+    }
+
+    public void setDateMaj(Date dateMaj) {
+        this.dateMaj = dateMaj;
+    }
 }

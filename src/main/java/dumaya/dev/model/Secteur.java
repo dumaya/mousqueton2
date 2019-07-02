@@ -63,4 +63,8 @@ public class Secteur implements Serializable {
     public List<Voie> getVoies() {
         return voies;
     }
+
+    public void setVoies(List<Voie> voies) {
+        this.voies = voies;
+    }
 }

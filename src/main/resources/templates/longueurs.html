@@ -34,29 +34,36 @@
             <tr> <th>Orientation</th> <td th:utext="${site.orientation}"></td> </tr>
             <tr> <th>Date de MAJ</th> <td th:utext="${site.dateMaj}"></td> </tr>
         </table>
-        <h2>Secteurs :</h2>
+        <h2>Secteur :</h2>
+        <table class="table table-striped table-bordered">
+            <tr> <th>Nom</th> <td th:utext="${secteur.nom}"></td> </tr>
+            <tr> <th>Description</th> <td th:utext="${secteur.description}"></td> </tr>
+        </table>
+
+        <h3>Voie :</h3>
+        <table class="table table-striped table-bordered">
+            <tr> <th>Nom</th> <td th:utext="${voie.nom}"></td> </tr>
+            <tr> <th>Cotation</th> <td th:utext="${voie.cotation}"></td> </tr>
+            <tr> <th>Description</th> <td th:utext="${voie.description}"></td> </tr>
+        </table>
+
+        <h4>Longueurs :</h4>
         <table class="table table-striped table-bordered">
                 <tr>
                     <th>Nom</th>
+                    <th>Cotation</th>
                     <th>Description</th>
                     <th>Date de mise à jour</th>
-                    <th>Détails du secteur</th>
                 </tr>
-                <tr th:each ="secteur : ${site.getSecteurs()}">
-                    <td th:utext="${secteur.nom}">...</td>
-                    <td th:utext="${secteur.description}">...</td>
-                    <td th:utext="${secteur.dateMaj}">...</td>
-                    <td>
-                        <a th:href="@{/voies(idSite=${site.id},idSecteur=${secteur.id})}">
-                            <input type="hidden"  th:value="${site.id}" name="idSite"/>
-                            <input type="hidden"  th:value="${secteur.id}" name="idSecteur"/>
-                            <button type="submit" class="btn btn-success">Voir</button>
-                        </a>
-                    </td>
+                <tr th:each ="longueur : ${voie.getLongueurs()}">
+                    <td th:utext="${longueur.nom}">...</td>
+                    <td th:utext="${longueur.cotation}">...</td>
+                    <td th:utext="${longueur.description}">...</td>
+                    <td th:utext="${longueur.dateMaj}">...</td>
                 </tr>
             </table>
             <div class="btn-group">
-                <a th:href="@{/ajoutsecteur(idSite=${site.id})}" class="btn btn-primary active">Ajouter un secteur à ce site</a>
+                <a th:href="@{/ajoutlongueur(idSite=${site.id},idSecteur=${secteur.id},idVoie=${voie.id})}" class="btn btn-primary active">Ajouter une longueur à cette voie</a>
             </div>
         </div>
   </body>

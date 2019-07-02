@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mousqueton</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{css/mousqueton.css}" href="../static/css/mousqueton.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+          <ul class="nav navbar-nav">
+            <li> <a href="index">Accueil</a> </li>
+            <li> <a href="sites">Liste des Sites</a> </li>
+            <li> <a href="recherchersite">Rechercher un Site</a> </li>
+            <li> <a href="topos">Topos</a> </li>
+            <li> <a href="mestopos">Mes topos</a> </li>
+          </ul>
+        </div>
+      </nav>
+       <header class="page-header">
+        <h1>Ajout d'une longueur</h1>
+      </header>
+
+      <div class="row">
+        <form data-toggle="validator" role="form" th:object="${longueur}" th:action="@{/ajoutlongueur(idSite=${site.id},idSecteur=${secteur.id},idVoie=${voie.id})}" method="post" >
+         <legend>Ajout d'une longueur</legend>
+          <div class="form-group">
+            <label for="nom">Nom de la longueur</label>
+            <input type="text" class="form-control" th:field="*{nom}" id="nom"  />
+          </div>
+            <div class="form-group">
+                <label for="nom">Cotation</label>
+                <input type="text" class="form-control" th:field="*{cotation}" id="cotation"  />
+            </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="textarea"  class="form-control" th:field="*{description}" id="description" ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </form>
+          <!-- Check if errorMessage is not null and not empty -->
+          <div th:if="${erreurSaisieLongueur}" th:utext="${erreurSaisieLongueur}" class="bg-danger">
+          </div>
+
+      </div>
+        <div class="btn-group">
+            <a th:href="@{/longueurs(idSite=${site.id},idSecteur=${secteur.id},idVoie=${voie.id})}" class="btn btn-primary active">Retourner à la description de la voie</a>
+            <input type="hidden"  th:value="${site.id}" name="idSite"/>
+            <input type="hidden"  th:value="${secteur.id}" name="idSecteur"/>
+            <input type="hidden"  th:value="${voie.id}" name="idVoie"/>
+        </div>
+        </div>
+     </div>
+  </body>
+</html>
+

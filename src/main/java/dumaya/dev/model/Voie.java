@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -30,6 +31,9 @@ public class Voie implements Serializable {
 
     @ManyToOne
     private Secteur secteur;
+
+    @OneToMany(mappedBy="voie")
+    private List<Longueur> longueurs;
 
     public String getNom() {
         return nom;
@@ -69,5 +73,13 @@ public class Voie implements Serializable {
 
     public Date getDateMaj() {
         return dateMaj;
+    }
+
+    public List<Longueur> getLongueurs() {
+        return longueurs;
+    }
+
+    public void setLongueurs(List<Longueur> longueurs) {
+        this.longueurs = longueurs;
     }
 }

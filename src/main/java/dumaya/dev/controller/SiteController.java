@@ -1,11 +1,7 @@
 package dumaya.dev.controller;
 
-import dumaya.dev.model.Secteur;
-import dumaya.dev.model.Site;
-import dumaya.dev.model.Topo;
-import dumaya.dev.model.User;
+import dumaya.dev.model.*;
 import dumaya.dev.service.SiteService;
-import dumaya.dev.service.TopoService;
 import dumaya.dev.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +31,12 @@ public class SiteController {
 
     @Value("${erreur.saisie.secteur}")
     private String erreurSaisieSecteur;
+
+    @Value("${erreur.saisie.voie}")
+    private String erreurSaisieVoie;
+
+    @Value("${erreur.saisie.longueur}")
+    private String erreurSaisieLongueur;
 
     @GetMapping("/sites")
     public String affichelesSites(Model model) {
@@ -82,7 +84,7 @@ public class SiteController {
     }
 
     @GetMapping("/ajoutsecteur")
-    public String ajoutSescteur(Model model,@RequestParam("idSite") int idSite) {
+    public String ajoutSecteur(Model model,@RequestParam("idSite") int idSite) {
 
         /* Formulaire de création d'un secteur */
         LOGGER.debug("Init formulaire secteur");
@@ -119,5 +121,79 @@ public class SiteController {
         model.addAttribute("secteur", secteur);
         return "voies";
     }
+
+    @GetMapping("/ajoutvoie")
+    public String ajoutVoie(Model model,@RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur) {
+
+        /* Formulaire de création d'une voie */
+        LOGGER.debug("Init formulaire voie");
+        Voie voie = new Voie();
+        model.addAttribute("site", siteService.getSite(idSite));
+        model.addAttribute("secteur", siteService.getSecteur(idSecteur));
+        model.addAttribute("voie", voie);
+
+        return "ajoutvoie";
+    }
+
+    @PostMapping(value = "/ajoutvoie")
+    public String proposerVoieSubmit(Model model, @Valid @ModelAttribute("voie") Voie voie, @RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur, BindingResult result) {
+
+        LOGGER.debug("submit du formulaire voie");
+
+        if (result.hasErrors()){
+            LOGGER.debug("erreur du formulaire voie");
+            model.addAttribute("erreurSaisieVoie", erreurSaisieVoie);
+            return "voies";
+        } else {
+            siteService.ajoutVoie(idSecteur, voie);
+            Site site = siteService.getSite(idSite);
+            model.addAttribute("site", site);
+            model.addAttribute("secteur", siteService.getSecteur(idSecteur));
+            return "voies";
+        }
+    }
+    // une voie et les longueurs associées
+    @GetMapping("/longueurs")
+    public String affichelesLongueurs(Model model, @RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur,@RequestParam("idVoie") int idVoie) {
+        LOGGER.debug("page afficher les longueurs d'une voie");
+        Site site = siteService.getSite(idSite);
+        Secteur secteur = siteService.getSecteur(idSecteur);
+        Voie voie = siteService.getVoie(idVoie);
+        model.addAttribute("site", site);
+        model.addAttribute("secteur", secteur);
+        model.addAttribute("voie",voie);
+        return "longueurs";
+    }
+    @GetMapping("/ajoutlongueur")
+    public String ajoutLongueur(Model model,@RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur,@RequestParam("idVoie") int idVoie) {
+
+        /* Formulaire de création d'une longueur */
+        LOGGER.debug("Init formulaire longueur");
+        Longueur longueur = new Longueur();
+        model.addAttribute("site", siteService.getSite(idSite));
+        model.addAttribute("secteur", siteService.getSecteur(idSecteur));
+        model.addAttribute("voie", siteService.getVoie(idVoie));
+        model.addAttribute("longueur", longueur);
+
+        return "ajoutlongueur";
+    }
+    @PostMapping(value = "/ajoutlongueur")
+    public String proposerLongueurSubmit(Model model, @Valid @ModelAttribute("longueur") Longueur longueur, @RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur,@RequestParam("idVoie") int idVoie, BindingResult result) {
+
+        LOGGER.debug("submit du formulaire longueur");
+
+        if (result.hasErrors()){
+            LOGGER.debug("erreur du formulaire longueur");
+            model.addAttribute("erreurSaisieLongueur", erreurSaisieLongueur);
+            return "longueurs";
+        } else {
+            siteService.ajoutLongueur(idVoie, longueur);
+            model.addAttribute("site", siteService.getSite(idSite));
+            model.addAttribute("secteur", siteService.getSecteur(idSecteur));
+            model.addAttribute("voie", siteService.getVoie(idVoie));
+            return "longueurs";
+        }
+    }
+
 }
 

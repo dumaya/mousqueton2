@@ -1,12 +1,12 @@
 package dumaya.dev.repository;
 
-import dumaya.dev.model.Secteur;
+import dumaya.dev.model.Voie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SecteurRepository extends JpaRepository<Secteur, Long> {
+public interface VoieRepository extends JpaRepository<Voie, Long> {
 
-    Secteur findById(int id);
+    Voie findById(int id);
 
 }

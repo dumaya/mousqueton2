@@ -48,6 +48,9 @@ public class Site implements Serializable {
     @Column(name = "dateMaj", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
     private Date dateMaj;
 
+    @Column
+    private boolean officielAmiEscalade;
+
     @OneToMany(mappedBy="site")
     private List<Secteur> secteurs;
 
@@ -154,5 +157,13 @@ public class Site implements Serializable {
 
     public void setDateMaj(Date dateMaj) {
         this.dateMaj = dateMaj;
+    }
+
+    public boolean isOfficielAmiEscalade() {
+        return officielAmiEscalade;
+    }
+
+    public void setOfficielAmiEscalade(boolean officielAmiEscalade) {
+        this.officielAmiEscalade = officielAmiEscalade;
     }
 }

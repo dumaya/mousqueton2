@@ -7,13 +7,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SiteController {
@@ -49,7 +55,7 @@ public class SiteController {
     @GetMapping("/ajoutsite")
     public String ajoutSite(Model model) {
 
-        /* Formulaire de création d'un topo */
+        /* Formulaire de création d'un site */
         LOGGER.debug("Init formulaire site");
         Site site = new Site();
         model.addAttribute("site", site);
@@ -67,19 +73,22 @@ public class SiteController {
             List<Site> sites= siteService.listeSites();
             model.addAttribute("sites", sites);
             model.addAttribute("erreurSaisieSite", erreurSaisieSite);
-            return "ajouttopo";
+            return "ajoutsite";
         } else {
             siteService.enregistrer(site);
-            return "redirect:/sites";
+            List<Site> sites= siteService.listeSites();
+            model.addAttribute("sites", sites);
+            return "sites";
         }
     }
 
     // un Site et les secteurs associés
     @GetMapping("/secteurs")
-    public String affichelesSecteurs(Model model, @RequestParam("idSite") int idSite) {
+    public String affichelesSecteurs(Model model, @RequestParam("idSite") int idSite, HttpSession httpSession) {
         LOGGER.debug("page afficher les secteurs d'un site");
-        Site site = siteService.getSite(idSite);
-        model.addAttribute("site", site);
+
+        majModelSecteur(model,idSite,httpSession);
+
         return "secteurs";
     }
 
@@ -96,18 +105,17 @@ public class SiteController {
     }
 
     @PostMapping(value = "/ajoutsecteur")
-    public String proposerSecteurSubmit(Model model, @Valid @ModelAttribute("secteur") Secteur secteur, @RequestParam("idSite") int idSite, BindingResult result) {
+    public String proposerSecteurSubmit(Model model, @Valid @ModelAttribute("secteur") Secteur secteur, @RequestParam("idSite") int idSite,HttpSession httpSession, BindingResult result) {
 
         LOGGER.debug("submit du formulaire secteur");
 
         if (result.hasErrors()){
             LOGGER.debug("erreur du formulaire secteur");
             model.addAttribute("erreurSaisieSecteur", erreurSaisieSecteur);
-            return "secteurs";
+            return "ajoutsecteur";
         } else {
             siteService.ajoutSecteur(idSite, secteur);
-            Site site = siteService.getSite(idSite);
-            model.addAttribute("site", site);
+            majModelSecteur(model,idSite,httpSession);
             return "secteurs";
         }
     }
@@ -195,5 +203,32 @@ public class SiteController {
         }
     }
 
+    @PostMapping(value = "/secteurs/modifAmi")
+    public String modifAmi (Model model, @RequestParam int idSite, HttpSession httpSession) {
+        LOGGER.debug("Changement de du TOP Ami de l'escalade");
+        siteService.changeAmi(idSite);
+        majModelSecteur(model,idSite,httpSession);
+        return "secteurs";
+    }
+
+    private void majModelSecteur (Model model, int idSite, HttpSession httpSession) {
+        boolean ami = false;
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        if (user != null) {
+            httpSession.setAttribute("userSession",user);
+            Set<Role> roles = user.getRoles();
+            for (Role role : roles) {
+                if (role.getRole().equals("ROLE_AMI_ESCALADE")) { ami = true;}
+            }
+            model.addAttribute("ami", ami);
+            model.addAttribute("user", user);
+            model.addAttribute("roles", roles);
+        }
+
+        Site site = siteService.getSite(idSite);
+        model.addAttribute("site", site);
+    }
 }
 

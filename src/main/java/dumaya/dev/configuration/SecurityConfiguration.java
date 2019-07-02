@@ -36,8 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		
 		http.
 			authorizeRequests()
-				.antMatchers("/").permitAll()
-				.antMatchers("/login").permitAll()
+				.antMatchers("/","/login").permitAll()
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/index").permitAll()
 				.antMatchers("/sites").permitAll()
@@ -46,10 +45,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/topos").permitAll()
 				.antMatchers("/longueurs").permitAll()
 				.antMatchers("/h2-console/**").permitAll()
-				.antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
+				.antMatchers("/secteurs/modifAmi").hasAuthority("ROLE_AMI_ESCALADE").anyRequest()
 				.authenticated().and().csrf().disable().formLogin()
 				.loginPage("/login").failureUrl("/login?error=true")
-				.defaultSuccessUrl("/home")
+				.defaultSuccessUrl("/index")
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.and().logout()

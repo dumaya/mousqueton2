@@ -6,12 +6,13 @@ INSERT INTO role (role_id, role) VALUES (30, 'ROLE_AMI_ESCALADE');
 
 INSERT INTO user_role (user_id, role_id) VALUES (100, 10);
 INSERT INTO user_role (user_id, role_id) VALUES (100, 20);
+INSERT INTO user_role (user_id, role_id) VALUES (100, 30);
 
 INSERT INTO user (user_id, name, last_name, email, password,active) VALUES (200, 'Tom', 'Dumoulin', 'alexlanoisette@gmail.fr', '$2a$10$RyY4bXtV3LKkDCutlUTYDOKd2AiJYZGp4Y7MPVdLzWzT1RX.JRZyG',true );
 INSERT INTO user_role (user_id, role_id) VALUES (200, 10);
 INSERT INTO user_role (user_id, role_id) VALUES (200, 20);
 
-insert into site (id,nom,description,cotation_min,cotation_max,type_roche,ancrage,relais,altitude,orientation,lieu) values ('100','Moncel','coteaux','4A','9H','caillou','poteaux','type COLLINOX scéllés',450,'est','54280 Moncel Sur Seille');
+insert into site (id,nom,description,cotation_min,cotation_max,type_roche,ancrage,relais,altitude,orientation,lieu,officiel_ami_escalade) values ('100','Moncel','coteaux','4A','9H','caillou','poteaux','type COLLINOX scéllés',450,'est','54280 Moncel Sur Seille',true);
 
 insert into secteur (id,site_id,nom,description) values ('100','100','gare','à droite');
 insert into secteur (id,site_id,nom,description) values ('200','100','vaimbois','au milieu');

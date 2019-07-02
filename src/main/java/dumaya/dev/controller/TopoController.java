@@ -41,12 +41,18 @@ public class TopoController {
     private String erreurBoutonTopo;
 
     @RequestMapping("/")
-    public String racine() {
+    public String racine(Model model, HttpSession httpSession) {
+        majModelAuth(model,httpSession);
         return "index";
     }
 
     @RequestMapping("/index")
     public String index(Model model, HttpSession httpSession) {
+        majModelAuth(model,httpSession);
+        return "index";
+    }
+
+    private void majModelAuth (Model model,HttpSession httpSession) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         if (user != null) {
@@ -55,8 +61,6 @@ public class TopoController {
             model.addAttribute("user", user);
             model.addAttribute("roles", roles);
         }
-
-        return "index";
     }
 
     @GetMapping("/mestopos")

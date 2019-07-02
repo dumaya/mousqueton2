@@ -96,4 +96,14 @@ public class SiteService {
         voie.setLongueurs(longueurs);
         voieRepository.save(voie);
     }
+
+    public void changeAmi(int idSite) {
+        Site site = siteRepository.findById(idSite);
+        if (site.isOfficielAmiEscalade()) {
+            site.setOfficielAmiEscalade(false);
+        } else {
+            site.setOfficielAmiEscalade(true);
+        }
+        siteRepository.save(site);
+    }
 }

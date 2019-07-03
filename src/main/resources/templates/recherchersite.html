@@ -11,12 +11,12 @@
         <div th:replace="fragments/general.html :: menu"></div>
 
         <header class="page-header">
-        <h1>Ajout d'un site</h1>
+        <h1>Rechercher un site</h1>
       </header>
 
       <div class="row">
-        <form data-toggle="validator" role="form" th:object="${site}" th:action="@{/ajoutsite}" method="post" >
-         <legend>Ajout d'un site</legend>
+        <form data-toggle="validator" role="form" th:object="${siteCherche}" th:action="@{/recherchersite/recherche}" method="post" >
+         <legend>Recherche multi critère d'un site</legend>
           <div class="form-group">
             <label for="nom">Nom du Site</label>
             <input type="text" class="form-control" th:field="*{nom}" id="nom"  />
@@ -27,7 +27,7 @@
           </div>
           <div class="form-group">
             <label for="lieu">Lieu d'escalade</label>
-            <input type="text" class="form-control" th:field="*{lieu}" id="lieu" required="required" />
+            <input type="text" class="form-control" th:field="*{lieu}" id="lieu" />
           </div>
           <div class="form-group">
             <label for="typeRoche">Type de Roche</label>
@@ -49,14 +49,49 @@
                 <label for="orientation">Orientation</label>
                 <input type="text" class="form-control" th:field="*{orientation}" id="orientation" />
             </div>
-          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="submit" class="btn btn-primary">Rechercher</button>
         </form>
-          <!-- Check if errorMessage is not null and not empty -->
-
-          <div th:if="${erreurSaisieSite}" th:utext="${erreurSaisieSite}" class="bg-danger">
-          </div>
 
       </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h1>Liste des sites correspondants</h1>
+            </div>
+            <table class="table table-striped table-bordered table-condensed">
+                <tr>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Lieu</th>
+                    <th>Cotations</th>
+                    <th>Type de roche</th>
+                    <th>Ancrage</th>
+                    <th>Relais</th>
+                    <th>Altitude</th>
+                    <th>Orientation</th>
+                    <th>Date de mise à jour</th>
+                    <th>Détails du site</th>
+                </tr>
+                <tr th:each ="site : ${sites}">
+
+                    <td th:utext="${site.nom}">...</td>
+                    <td th:utext="${site.description}">...</td>
+                    <td th:utext="${site.lieu}">...</td>
+                    <td th:utext="'Min:' + ${site.cotationMin} + ' Max:' + ${site.cotationMax}">...</td>
+                    <td th:utext="${site.typeRoche}">...</td>
+                    <td th:utext="${site.ancrage}">...</td>
+                    <td th:utext="${site.relais}">...</td>
+                    <td th:utext="${site.altitude}">...</td>
+                    <td th:utext="${site.orientation}">...</td>
+                    <td th:utext="${site.dateMaj}">...</td>
+                    <td>
+                        <a th:href="@{/secteurs(idSite=${site.id})}">
+                            <input type="hidden"  th:value="${site.id}" name="idSite"/>
+                            <button type="submit" class="btn btn-success">Voir</button>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <div class="btn-group">
             <a href="/sites" class="btn btn-secondary active">Retourner à la liste des sites</a>
         </div>

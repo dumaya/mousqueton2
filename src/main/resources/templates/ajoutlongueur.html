@@ -8,18 +8,9 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-default navbar-static-top">
-        <div class="container-fluid">
-          <ul class="nav navbar-nav">
-            <li> <a href="index">Accueil</a> </li>
-            <li> <a href="sites">Liste des Sites</a> </li>
-            <li> <a href="recherchersite">Rechercher un Site</a> </li>
-            <li> <a href="topos">Topos</a> </li>
-            <li> <a href="mestopos">Mes topos</a> </li>
-          </ul>
-        </div>
-      </nav>
-       <header class="page-header">
+        <div th:replace="fragments/general.html :: menu"></div>
+
+        <header class="page-header">
         <h1>Ajout d'une longueur</h1>
       </header>
 
@@ -52,6 +43,7 @@
             <input type="hidden"  th:value="${voie.id}" name="idVoie"/>
         </div>
         </div>
+    <div th:replace="fragments/general.html :: pied"></div>
      </div>
   </body>
 </html>

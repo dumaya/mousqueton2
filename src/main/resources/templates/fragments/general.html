@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mousqueton</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/content/mousqueton.css}"  rel="stylesheet" />
+  </head>
+  <body>
+  <div th:fragment="menu">
+
+      <nav class="navbar navbar-default navbar-static-top">
+        <ul class="nav navbar-nav">
+          <li> <a href="index">Accueil</a> </li>
+          <li > <a href="sites">Liste des Sites</a> </li>
+          <li> <a href="recherchersite">Rechercher un Site</a> </li>
+          <li> <a href="topos">Topos</a> </li>
+          <li > <a href="mestopos">Mes topos</a> </li>
+        </ul>
+      </nav>
+
+  </div>
+  <div th:fragment="pied">
+    <footer>
+
+        <!-- this is footer -->
+        © 2019 dumaya.dev
+        <div th:if="${user != null}">
+          Utilisateur connecté: <span th:text="${user.getEmail()}"></span>
+          | Roles: <div th:each ="role : ${roles}" th:utext="${role.getRole()} + ' '" th:remove="tag"></div>
+          | <a th:href="@{/logout}">Se deconnecter</a>
+        </div>
+        <div th:if="${user == null}">
+          <a th:href="@{/login}">Se connecter</a>
+        </div>
+
+    </footer>
+  </div>
+  </body>
+</html>

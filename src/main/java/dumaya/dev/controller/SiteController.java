@@ -18,13 +18,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Controller
 public class SiteController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TopoController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SiteController.class);
 
     @Autowired
     private SiteService siteService;
@@ -230,5 +231,25 @@ public class SiteController {
         Site site = siteService.getSite(idSite);
         model.addAttribute("site", site);
     }
+
+    @GetMapping("/recherchersite")
+    public String rechercherSite(Model model) {
+        LOGGER.debug("page rechercher les sites");
+        Site siteCherche = new Site();
+        List<Site> sites= new ArrayList<>();
+        model.addAttribute("siteCherche", siteCherche);
+        model.addAttribute("sites", sites);
+        return "recherchersite";
+    }
+
+    @PostMapping(value = "/recherchersite/recherche")
+    public String rechercherSiteCherche (Model model,@ModelAttribute ("siteCherche") Site siteCherche) {
+        LOGGER.debug("lancement d'une recherche");
+        List<Site> sites= siteService.chercheSites(siteCherche);
+        model.addAttribute("siteCherche", siteCherche);
+        model.addAttribute("sites", sites);
+        return "recherchersite";
+    }
+
 }
 

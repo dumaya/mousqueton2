@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -105,5 +106,11 @@ public class SiteService {
             site.setOfficielAmiEscalade(true);
         }
         siteRepository.save(site);
+    }
+
+    public List<Site> chercheSites(Site siteCherche) {
+        List<Site> sitesTrouve= new ArrayList<>();
+        sitesTrouve=siteRepository.rechercheSiteMultiCriteres(siteCherche);
+        return sitesTrouve;
     }
 }

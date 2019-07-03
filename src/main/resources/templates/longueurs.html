@@ -8,46 +8,53 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-default navbar-static-top">
-        <div class="container-fluid">
-          <ul class="nav navbar-nav">
-            <li> <a href="index">Accueil</a> </li>
-            <li class="active"> <a href="sites">Liste des Sites</a> </li>
-            <li> <a href="recherchersite">Rechercher un Site</a> </li>
-            <li> <a href="topos">Topos</a> </li>
-            <li> <a href="mestopos">Mes topos</a> </li>
-          </ul>
-        </div>
-      </nav>
-       <header class="page-header">
-        <h1>Site :</h1>
-      </header>
-        <table class="table table-striped table-bordered table-responsive">
-            <tr> <th>Nom</th> <td th:utext="${site.nom}"></td> </tr>
-            <tr> <th>Description</th> <td th:utext="${site.description}"></td> </tr>
-            <tr> <th>Lieu</th> <td th:utext="${site.lieu}"></td> </tr>
-            <tr> <th>Cotations</th> <td th:utext="'Min:' + ${site.cotationMin} + ' Max:' + ${site.cotationMax}"></td> </tr>
-            <tr> <th>Type Roche</th> <td th:utext="${site.typeRoche}"></td> </tr>
-            <tr> <th>Ancrage</th> <td th:utext="${site.ancrage}"></td> </tr>
-            <tr> <th>Relais</th> <td th:utext="${site.relais}"></td> </tr>
-            <tr> <th>Altitude</th> <td th:utext="${site.altitude}"></td> </tr>
-            <tr> <th>Orientation</th> <td th:utext="${site.orientation}"></td> </tr>
-            <tr> <th>Date de MAJ</th> <td th:utext="${site.dateMaj}"></td> </tr>
-        </table>
-        <h2>Secteur :</h2>
-        <table class="table table-striped table-bordered">
-            <tr> <th>Nom</th> <td th:utext="${secteur.nom}"></td> </tr>
-            <tr> <th>Description</th> <td th:utext="${secteur.description}"></td> </tr>
-        </table>
+        <div th:replace="fragments/general.html :: menu"></div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
 
-        <h3>Voie :</h3>
+                <h1 class="align-content-center" th:utext="'Site : ' + ${site.nom}">...</h1>
+                <span class="align-content-center">
+                      <span  th:if="${site.isOfficielAmiEscalade()} == true">
+                        <img class="d-inline-block align-top" th:src="@{images/ami.png}" alt="Officiel les amis de l'escalade" />
+                      </span>
+                    </span>
+            </div>
+
+            <table class="table table-striped table-bordered table-responsive">
+                <tr> <th>Nom</th> <td th:utext="${site.nom}"></td> </tr>
+                <tr> <th>Description</th> <td th:utext="${site.description}"></td> </tr>
+                <tr> <th>Lieu</th> <td th:utext="${site.lieu}"></td> </tr>
+                <tr> <th>Cotations</th> <td th:utext="'Min:' + ${site.cotationMin} + ' Max:' + ${site.cotationMax}"></td> </tr>
+                <tr> <th>Type Roche</th> <td th:utext="${site.typeRoche}"></td> </tr>
+                <tr> <th>Ancrage</th> <td th:utext="${site.ancrage}"></td> </tr>
+                <tr> <th>Relais</th> <td th:utext="${site.relais}"></td> </tr>
+                <tr> <th>Altitude</th> <td th:utext="${site.altitude}"></td> </tr>
+                <tr> <th>Orientation</th> <td th:utext="${site.orientation}"></td> </tr>
+                <tr> <th>Date de MAJ</th> <td th:utext="${site.dateMaj}"></td> </tr>
+            </table>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h2 th:utext="'Secteur : ' + ${secteur.nom}">Secteur</h2>
+            </div>
+
+            <table class="table table-striped table-bordered">
+                <tr> <th>Description</th> <td th:utext="${secteur.description}"></td> </tr>
+            </table>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 th:utext="'Voie : ' + ${voie.nom}">Voie :</h3>
+            </div>
         <table class="table table-striped table-bordered">
-            <tr> <th>Nom</th> <td th:utext="${voie.nom}"></td> </tr>
             <tr> <th>Cotation</th> <td th:utext="${voie.cotation}"></td> </tr>
             <tr> <th>Description</th> <td th:utext="${voie.description}"></td> </tr>
         </table>
-
-        <h4>Longueurs :</h4>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>Longueurs :</h4>
+            </div>
         <table class="table table-striped table-bordered">
                 <tr>
                     <th>Nom</th>
@@ -62,9 +69,11 @@
                     <td th:utext="${longueur.dateMaj}">...</td>
                 </tr>
             </table>
+        </div>
             <div class="btn-group">
                 <a th:href="@{/ajoutlongueur(idSite=${site.id},idSecteur=${secteur.id},idVoie=${voie.id})}" class="btn btn-primary active">Ajouter une longueur à cette voie</a>
             </div>
+        <div th:replace="fragments/general.html :: pied"></div>
         </div>
   </body>
 </html>

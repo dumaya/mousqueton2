@@ -4,22 +4,13 @@
     <meta charset="utf-8" />
     <title>Mousqueton</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link th:href="@{assets/css/mousqueton.css}" href="../static/css/mousqueton.css" rel="stylesheet" />
+    <link th:href="@{css/mousqueton.css}" href="../static/css/mousqueton.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-default navbar-static-top">
-        <div class="container-fluid">
-          <ul class="nav navbar-nav">
-            <li > <a href="index">Accueil</a> </li>
-            <li> <a href="sites">Liste des Sites</a> </li>
-            <li> <a href="recherchersite">Rechercher un Site</a> </li>
-            <li class="active"> <a href="topos">Topos</a> </li>
-            <li> <a href="mestopos">Mes topos</a> </li>
-          </ul>
-        </div>
-      </nav>
-       <header class="page-header">
+      <div th:replace="fragments/general.html :: menu"></div>
+
+      <header class="page-header">
         <h1>Liste des topos empruntables</h1>
       </header>
       <section class="table-responsive">
@@ -46,6 +37,7 @@
             </form>
           </tr>
         </table>
+        <div th:replace="fragments/general.html :: pied"></div>
       </section>
      </div>
   </body>

@@ -1,6 +1,7 @@
 package dumaya.dev.repository;
 
 import dumaya.dev.model.Site;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Repository
 public class SiteRepositoryCustomImpl implements SiteRepositoryCustom{
-
+    @Autowired
     EntityManager em;
 
     @Override
@@ -22,17 +23,40 @@ public class SiteRepositoryCustomImpl implements SiteRepositoryCustom{
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Site> cq = cb.createQuery(Site.class);
 
-        Root<Site> book = cq.from(Site.class);
+        Root<Site> site = cq.from(Site.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        if (siteCherche.getNom().equals("")) {
-            predicates.add(cb.like(book.get("nom"), "%" + siteCherche.getNom() + "%"));
-        }
-        if (siteCherche.getDescription().equals("")) {
-            predicates.add(cb.like(book.get("description"), "%" + siteCherche.getDescription() + "%"));
+        if (!siteCherche.getNom().equals("")) {
+            predicates.add(cb.like(site.get("nom"), "%" + siteCherche.getNom() + "%"));
         }
 
-        cq.where(predicates.toArray(new Predicate[0]));
+        if (!siteCherche.getDescription().equals("")) {
+            predicates.add(cb.like(site.get("description"), "%" + siteCherche.getDescription() + "%"));
+        }
+        if (!(siteCherche.getCotationMin().isEmpty())) {
+            predicates.add(cb.greaterThanOrEqualTo(site.get("cotationMin"), siteCherche.getCotationMin()));
+        }
+        if (!siteCherche.getCotationMax().isEmpty()) {
+            predicates.add(cb.lessThanOrEqualTo(site.get("cotationMax"), siteCherche.getCotationMax()));
+        }
+        if (siteCherche.getAltitude() != null) {
+            predicates.add(cb.greaterThanOrEqualTo(site.get("altitude"), siteCherche.getAltitude()));
+        }
+        if (!siteCherche.getOrientation().equals("")) {
+            predicates.add(cb.equal(site.get("orientation"), siteCherche.getOrientation()));
+        }
+        if (!siteCherche.getLieu().equals("")) {
+            predicates.add(cb.like(site.get("lieu"), "%" + siteCherche.getLieu() + "%"));
+        }
+        if (!siteCherche.getTypeRoche().equals("")) {
+            predicates.add(cb.like(site.get("typeRoche"), "%" + siteCherche.getTypeRoche() + "%"));
+        }
+        if (!siteCherche.getAncrage().equals("")) {
+            predicates.add(cb.like(site.get("ancrage"), "%" + siteCherche.getAncrage() + "%"));
+        }
+        if (!predicates.isEmpty()) {
+            cq.where(predicates.toArray(new Predicate[0]));
+        }
 
         return em.createQuery(cq).getResultList();
     }

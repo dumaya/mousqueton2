@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -47,7 +46,7 @@ public class SiteController {
 
     @GetMapping("/sites")
     public String affichelesSites(Model model) {
-        LOGGER.debug("page afficher les sites");
+        LOGGER.info("page afficher les sites");
         List<Site> sites= siteService.listeSites();
         model.addAttribute("sites", sites);
         return "sites";

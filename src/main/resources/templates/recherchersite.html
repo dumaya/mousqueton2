@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta charset="utf-8" />
-    <title>Mousqueton</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link th:href="@{css/mousqueton.css}" href="../static/css/mousqueton.css" rel="stylesheet" />
+      <title>Mousqueton</title>
+      <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+      <link th:href="@{css/mousqueton.css}"  rel="stylesheet" />
   </head>
   <body>
     <div class="container">
         <div th:replace="fragments/general.html :: menu"></div>
-
-        <header class="page-header">
-        <h1>Rechercher un site</h1>
-      </header>
-
-      <div class="row">
+        <section>
+            <header class="page-header">
+                <h1>Rechercher un site</h1>
+            </header>
+        </section>
+        <section>
         <form data-toggle="validator" role="form" th:object="${siteCherche}" th:action="@{/recherchersite/recherche}" method="post" >
          <legend>Recherche multi critère d'un site</legend>
           <div class="form-group">
@@ -23,7 +23,7 @@
           </div>
           <div class="form-group">
             <label for="description">Description</label>
-            <textarea type="textarea"  class="form-control" th:field="*{description}" id="description" ></textarea>
+            <textarea type="text"  class="form-control" th:field="*{description}" id="description" ></textarea>
           </div>
           <div class="form-group">
             <label for="lieu">Lieu d'escalade</label>
@@ -38,11 +38,15 @@
             <input type="text" class="form-control" th:field="*{ancrage}" id="ancrage" />
           </div>
             <div class="form-group">
-                <label for="relais">Relais</label>
-                <input type="text" class="form-control" th:field="*{relais}" id="relais" />
+                <label for="cotationMin">Cotation mini</label>
+                <input type="text" class="form-control" th:field="*{cotationMin}" id="cotationMin" />
             </div>
             <div class="form-group">
-                <label for="altitude">Altitude</label>
+                <label for="cotationMax">Cotation maxi</label>
+                <input type="text" class="form-control" th:field="*{cotationMax}" id="cotationMax" />
+            </div>
+            <div class="form-group">
+                <label for="altitude">Altitude mini</label>
                 <input type="text" class="form-control" th:field="*{altitude}" id="altitude" />
             </div>
             <div class="form-group">
@@ -51,53 +55,55 @@
             </div>
           <button type="submit" class="btn btn-primary">Rechercher</button>
         </form>
+        </section>
 
-      </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h1>Liste des sites correspondants</h1>
-            </div>
-            <section class="table-responsive">
-                <table class="table table-striped table-bordered table-condensed">
-                    <tr>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>Lieu</th>
-                        <th>Cotations</th>
-                        <th>Type de roche</th>
-                        <th>Ancrage</th>
-                        <th>Relais</th>
-                        <th>Altitude</th>
-                        <th>Orientation</th>
-                        <th>Date de mise à jour</th>
-                        <th>Détails du site</th>
-                    </tr>
-                    <tr th:each ="site : ${sites}">
+        <section>
+          <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Liste des sites correspondants</h3>
+                </div>
+                <section class="table-responsive">
+                    <table class="table table-striped table-bordered table-condensed">
+                        <tr>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Lieu</th>
+                            <th>Cotations</th>
+                            <th>Type de roche</th>
+                            <th>Ancrage</th>
+                            <th>Relais</th>
+                            <th>Altitude</th>
+                            <th>Orientation</th>
+                            <th>Date de mise à jour</th>
+                            <th>Détails du site</th>
+                        </tr>
+                        <tr th:each ="site : ${sites}">
 
-                        <td th:utext="${site.nom}">...</td>
-                        <td th:utext="${site.description}">...</td>
-                        <td th:utext="${site.lieu}">...</td>
-                        <td th:utext="'Min:' + ${site.cotationMin} + ' Max:' + ${site.cotationMax}">...</td>
-                        <td th:utext="${site.typeRoche}">...</td>
-                        <td th:utext="${site.ancrage}">...</td>
-                        <td th:utext="${site.relais}">...</td>
-                        <td th:utext="${site.altitude}">...</td>
-                        <td th:utext="${site.orientation}">...</td>
-                        <td th:utext="${site.dateMaj}">...</td>
-                        <td>
-                            <a th:href="@{/secteurs(idSite=${site.id})}">
-                                <input type="hidden"  th:value="${site.id}" name="idSite"/>
-                                <button type="submit" class="btn btn-success">Voir</button>
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </section>
-        </div>
-        <div class="btn-group">
-            <a href="/sites" class="btn btn-secondary active">Retourner à la liste des sites</a>
-        </div>
-        <div th:replace="fragments/general.html :: pied"></div>
+                            <td th:utext="${site.nom}">...</td>
+                            <td th:utext="${site.description}">...</td>
+                            <td th:utext="${site.lieu}">...</td>
+                            <td th:utext="'Min:' + ${site.cotationMin} + ' Max:' + ${site.cotationMax}">...</td>
+                            <td th:utext="${site.typeRoche}">...</td>
+                            <td th:utext="${site.ancrage}">...</td>
+                            <td th:utext="${site.relais}">...</td>
+                            <td th:utext="${site.altitude}">...</td>
+                            <td th:utext="${site.orientation}">...</td>
+                            <td th:utext="${site.dateMaj}">...</td>
+                            <td>
+                                <a th:href="@{/secteurs(idSite=${site.id})}">
+                                    <input type="hidden"  th:value="${site.id}" name="idSite"/>
+                                    <button type="submit" class="btn btn-success">Voir</button>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+          </div>
+          <div class="btn-group">
+                <a href="/sites" class="btn btn-secondary active">Retourner à la liste des sites</a>
+          </div>
+        </section>
+      <div th:replace="fragments/general.html :: pied"></div>
      </div>
   </body>
 </html>

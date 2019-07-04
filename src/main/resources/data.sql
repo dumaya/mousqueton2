@@ -13,6 +13,7 @@ INSERT INTO user_role (user_id, role_id) VALUES (200, 10);
 INSERT INTO user_role (user_id, role_id) VALUES (200, 20);
 
 insert into site (id,nom,description,cotation_min,cotation_max,type_roche,ancrage,relais,altitude,orientation,lieu,officiel_ami_escalade) values ('100','Moncel','coteaux','4A','9H','caillou','poteaux','type COLLINOX scéllés',450,'est','54280 Moncel Sur Seille',true);
+insert into site (id,nom,description,cotation_min,cotation_max,type_roche,ancrage,relais,altitude,orientation,lieu,officiel_ami_escalade) values ('101','Monce','falaise nord','3','3','pierre','poteaux','type COLLINOX scéllés',450,'nord','Laxou',true);
 
 insert into secteur (id,site_id,nom,description) values ('100','100','gare','à droite');
 insert into secteur (id,site_id,nom,description) values ('200','100','vaimbois','au milieu');

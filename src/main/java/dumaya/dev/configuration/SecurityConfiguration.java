@@ -44,6 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/voies").permitAll()
 				.antMatchers("/topos").permitAll()
 				.antMatchers("/longueurs").permitAll()
+				.antMatchers("/recherchersite").permitAll()
+				.antMatchers("/recherchersite/recherche").permitAll()
 				.antMatchers("/h2-console/**").permitAll()
 				.antMatchers("/secteurs/modifAmi").hasAuthority("ROLE_AMI_ESCALADE").anyRequest()
 				.authenticated().and().csrf().disable().formLogin()

@@ -18,7 +18,7 @@
                       </span>
                     </span>
             </div>
-
+            <section class="table-responsive">
             <table class="table table-striped table-bordered table-responsive">
                 <tr> <th>Nom</th> <td th:utext="${site.nom}"></td> </tr>
                 <tr> <th>Description</th> <td th:utext="${site.description}"></td> </tr>
@@ -31,20 +31,23 @@
                 <tr> <th>Orientation</th> <td th:utext="${site.orientation}"></td> </tr>
                 <tr> <th>Date de MAJ</th> <td th:utext="${site.dateMaj}"></td> </tr>
             </table>
+            </section>
         </div>
         <div class="panel panel-warning">
             <div class="panel-heading">
                 <h2 th:utext="'Secteur : ' + ${secteur.nom}">Secteur</h2>
             </div>
-
+        <section class="table-responsive">
         <table class="table table-striped table-bordered">
             <tr> <th>Description</th> <td th:utext="${secteur.description}"></td> </tr>
         </table>
+        </section>
         </div>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3>Voies :</h3>
             </div>
+            <section class="table-responsive">
             <table class="table table-striped table-bordered">
                 <tr>
                     <th>Nom</th>
@@ -68,6 +71,7 @@
                     </td>
                 </tr>
             </table>
+            </section>
         </div>
             <div class="btn-group">
                 <a th:href="@{/ajoutvoie(idSite=${site.id},idSecteur=${secteur.id})}" class="btn btn-primary active">Ajouter une voie à ce secteur</a>

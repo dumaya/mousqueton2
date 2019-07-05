@@ -1,13 +1,7 @@
 package dumaya.dev.service;
 
-import dumaya.dev.model.Longueur;
-import dumaya.dev.model.Secteur;
-import dumaya.dev.model.Site;
-import dumaya.dev.model.Voie;
-import dumaya.dev.repository.LongueurRepository;
-import dumaya.dev.repository.SecteurRepository;
-import dumaya.dev.repository.SiteRepository;
-import dumaya.dev.repository.VoieRepository;
+import dumaya.dev.model.*;
+import dumaya.dev.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +20,10 @@ public class SiteService {
     private VoieRepository voieRepository;
     @Autowired
     private LongueurRepository longueurRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CommentaireRepository commentaireRepository;
 
     /**
      * @return liste de tous les topos en base
@@ -112,5 +110,18 @@ public class SiteService {
         List<Site> sitesTrouve= new ArrayList<>();
         sitesTrouve=siteRepository.rechercheSiteMultiCriteres(siteCherche);
         return sitesTrouve;
+    }
+
+    public void ajoutCommentaire(Commentaire commentaire, int idSite, String email) {
+        Site site=siteRepository.findById(idSite);
+        User user=userRepository.findByEmail(email);
+        commentaire.setUserCommentaire(user);
+        commentaire.setSite(site);
+        commentaireRepository.save(commentaire);
+        List<Commentaire> commentaires = site.getCommentaires();
+        commentaires.add(commentaire);
+        site.setCommentaires(commentaires);
+        siteRepository.save(site);
+
     }
 }

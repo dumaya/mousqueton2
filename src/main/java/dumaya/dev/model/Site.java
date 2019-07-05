@@ -52,6 +52,9 @@ public class Site implements Serializable {
     private boolean officielAmiEscalade;
 
     @OneToMany(mappedBy="site")
+    private List<Commentaire> commentaires;
+
+    @OneToMany(mappedBy="site")
     private List<Secteur> secteurs;
 
     public List<Secteur> getSecteurs() {
@@ -165,5 +168,13 @@ public class Site implements Serializable {
 
     public void setOfficielAmiEscalade(boolean officielAmiEscalade) {
         this.officielAmiEscalade = officielAmiEscalade;
+    }
+
+    public List<Commentaire> getCommentaires() {
+        return commentaires;
+    }
+
+    public void setCommentaires(List<Commentaire> commentaires) {
+        this.commentaires = commentaires;
     }
 }

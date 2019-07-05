@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -43,6 +44,9 @@ public class SiteController {
 
     @Value("${erreur.saisie.longueur}")
     private String erreurSaisieLongueur;
+
+    @Value("${erreur.saisie.commentaire}")
+    private String erreurSaisieCommentaire;
 
     @GetMapping("/sites")
     public String affichelesSites(Model model) {
@@ -88,8 +92,29 @@ public class SiteController {
         LOGGER.debug("page afficher les secteurs d'un site");
 
         majModelSecteur(model,idSite,httpSession);
-
+        Commentaire commentaire = new Commentaire();
+        model.addAttribute("commentaire",commentaire);
         return "secteurs";
+    }
+
+    @PostMapping(value = "/secteurs/ajoutCommentaire")
+    public String ajouterCommentaireSubmit(Model model, @Valid @ModelAttribute("commentaire") Commentaire commentaire, @RequestParam("idSite") int idSite,  @RequestParam("email") String email,HttpSession httpSession,  BindingResult result) {
+
+        LOGGER.debug("submit du formulaire commentaire");
+
+        if (result.hasErrors()){
+            /** Garder la liste des sites de l'utilisateur */
+            majModelSecteur(model,idSite,httpSession);
+            commentaire.setMessage("");
+            model.addAttribute("commentaire",commentaire);
+            model.addAttribute("erreurSaisieCommentaire", erreurSaisieCommentaire);
+            return "secteurs";
+        } else {
+            siteService.ajoutCommentaire(commentaire,idSite,email);
+            majModelSecteur(model,idSite,httpSession);
+            model.addAttribute("commentaire",commentaire);
+            return "secteurs";
+        }
     }
 
     @GetMapping("/ajoutsecteur")
@@ -204,11 +229,11 @@ public class SiteController {
     }
 
     @PostMapping(value = "/secteurs/modifAmi")
-    public String modifAmi (Model model, @RequestParam int idSite, HttpSession httpSession) {
+    public String modifAmi (@RequestParam int idSite, RedirectAttributes redirectAttributes) {
         LOGGER.debug("Changement de du TOP Ami de l'escalade");
         siteService.changeAmi(idSite);
-        majModelSecteur(model,idSite,httpSession);
-        return "secteurs";
+        redirectAttributes.addAttribute("idSite",idSite);
+        return "redirect:/secteurs";
     }
 
     private void majModelSecteur (Model model, int idSite, HttpSession httpSession) {
@@ -225,6 +250,9 @@ public class SiteController {
             model.addAttribute("ami", ami);
             model.addAttribute("user", user);
             model.addAttribute("roles", roles);
+        } else {
+            User userVide = new User();
+            model.addAttribute("user", userVide);
         }
 
         Site site = siteService.getSite(idSite);

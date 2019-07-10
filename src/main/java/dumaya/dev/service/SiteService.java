@@ -46,10 +46,20 @@ public class SiteService {
         siteRepository.save(site);
     }
 
+    /**
+     * Ramener le site correspondant à l'idSite
+     * @param siteId
+     * @return Site
+     */
     public Site getSite(int siteId) {
         return siteRepository.findById(siteId);
     }
 
+    /**
+     * Ajouter un secteur à un site
+     * @param idSite
+     * @param secteur
+     */
     public void ajoutSecteur(int idSite, Secteur secteur) {
         Site site = siteRepository.findById(idSite);
         Secteur secteurEnreg = new Secteur();
@@ -63,10 +73,20 @@ public class SiteService {
         siteRepository.save(site);
     }
 
+    /**
+     * chercher le secteur par id
+     * @param idSecteur
+     * @return Secteur
+     */
     public Secteur getSecteur(int idSecteur) {
         return secteurRepository.findById(idSecteur);
     }
 
+    /**
+     * ajouter une voie à un secteur
+     * @param idSecteur
+     * @param voie
+     */
     public void ajoutVoie(int idSecteur, Voie voie) {
 
         Secteur secteur = secteurRepository.findById(idSecteur);
@@ -82,10 +102,20 @@ public class SiteService {
         secteurRepository.save(secteur);
     }
 
+    /**
+     * ramener une voie par id
+     * @param idVoie
+     * @return Voie
+     */
     public Voie getVoie(int idVoie) {
         return voieRepository.findById(idVoie);
     }
 
+    /**
+     * ajouter une longueur à une voie
+     * @param idVoie
+     * @param longueur
+     */
     public void ajoutLongueur(int idVoie, Longueur longueur) {
 
         Voie voie = voieRepository.findById(idVoie);
@@ -101,6 +131,10 @@ public class SiteService {
         voieRepository.save(voie);
     }
 
+    /**
+     * switcher le top "site officiel ami de l'escalade" oui / non
+     * @param idSite
+     */
     public void changeAmi(int idSite) {
         Site site = siteRepository.findById(idSite);
         if (site.isOfficielAmiEscalade()) {
@@ -111,12 +145,23 @@ public class SiteService {
         siteRepository.save(site);
     }
 
+    /**
+     * recherche multi criteres
+     * @param siteCherche objet de type suite qui contient les critères de recherche à appliquer
+     * @return Liste des sites correspondant aux critères renseignés (portés par un objet de type suite)
+     */
     public List<Site> chercheSites(Site siteCherche) {
         List<Site> sitesTrouve= new ArrayList<>();
         sitesTrouve=siteRepository.rechercheSiteMultiCriteres(siteCherche);
         return sitesTrouve;
     }
 
+    /**
+     * ajouter un commentaire à un site
+     * @param commentaire
+     * @param idSite
+     * @param email
+     */
     public void ajoutCommentaire(Commentaire commentaire, int idSite, String email) {
         Site site=siteRepository.findById(idSite);
         Utilisateur utilisateur = utilisateurRepository.findByEmail(email);
@@ -130,12 +175,23 @@ public class SiteService {
 
     }
 
+    /**
+     * supprimer le commentaire
+     * @param idCommentaire
+     * @param idSite
+     */
     public void supprCommentaire(int idCommentaire, int idSite) {
         Site site=siteRepository.findById(idSite);
         Commentaire commentaire=commentaireRepository.findById(idCommentaire);
         commentaireRepository.delete(commentaire);
         siteRepository.save(site);
     }
+
+    /**
+     * modifier le message du commentaire
+     * @param commentaire (message modifié)
+     * @param idSite
+     */
     public void modifCommentaire(Commentaire commentaire, int idSite) {
         Site site=siteRepository.findById(idSite);
         Commentaire commModifie = commentaireRepository.findById(commentaire.getId());

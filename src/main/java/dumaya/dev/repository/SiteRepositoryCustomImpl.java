@@ -17,6 +17,12 @@ public class SiteRepositoryCustomImpl implements SiteRepositoryCustom{
     @Autowired
     EntityManager em;
 
+    /**
+     * recherche multicriteres
+     * si siteCherche est vide, pas de predica et on ramene tous les sites présents en base
+     * @param siteCherche
+     * @return Liste des sites correspondants aux criteres contenus dans le siteCherche
+     */
     @Override
     public List<Site> rechercheSiteMultiCriteres(Site siteCherche) {
 

@@ -112,7 +112,8 @@ public class SiteController {
         } else {
             siteService.ajoutCommentaire(commentaire,idSite,email);
             majModelSecteur(model,idSite,httpSession);
-            model.addAttribute("commentaire",commentaire);
+            Commentaire com = new Commentaire();
+            model.addAttribute("commentaire",com);
             return "secteurs";
         }
     }

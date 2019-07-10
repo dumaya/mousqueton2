@@ -36,7 +36,11 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 		return utilisateurRepository.findByEmail(email);
 	}
 
-	
+
+	/**
+	 * Sauvegarde de l'utilisateur / cryptage mdp
+	 * @param utilisateur
+	 */
 	public void saveUtilisateur(Utilisateur utilisateur) {
 		utilisateur.setPassword(bCryptPasswordEncoder.encode(utilisateur.getPassword()));
 		utilisateur.setActive(true);
@@ -47,19 +51,6 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 		utilisateur.setRoles(roles);
 		utilisateurRepository.save(utilisateur);
 	}
-	
-	/*
-	 * INSERT INTO `role` VALUES (1,'ADMIN');
-	@Override
-	public void saveUser(Utilisateur user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setActive(1);
-        Role userRole = roleRepository.findByRole("ADMIN");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-		utilisateurRepository.save(user);
-	}
-	*/
-	
 	
 	@Transactional
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

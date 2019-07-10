@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/recherchersite").permitAll()
 				.antMatchers("/recherchersite/recherche").permitAll()
 				.antMatchers("/h2-console/**").permitAll()
-				.antMatchers("/secteurs/modifAmi").hasAuthority("ROLE_AMI_ESCALADE").anyRequest()
+				.antMatchers("/secteurs/modifAmi","/secteurs/supprCommentaire","/secteurs/modifCommentaire").hasAuthority("ROLE_AMI_ESCALADE").anyRequest()
 				.authenticated().and().csrf().disable().formLogin()
 				.loginPage("/login").failureUrl("/login?error=true")
 				.defaultSuccessUrl("/index")

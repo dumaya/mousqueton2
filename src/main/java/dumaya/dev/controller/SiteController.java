@@ -2,7 +2,7 @@ package dumaya.dev.controller;
 
 import dumaya.dev.model.*;
 import dumaya.dev.service.SiteService;
-import dumaya.dev.service.UserService;
+import dumaya.dev.service.UtilisateurService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class SiteController {
     private SiteService siteService;
 
     @Autowired
-    private UserService userService;
+    private UtilisateurService utilisateurService;
 
     @Value("${erreur.saisie.site}")
     private String erreurSaisieSite;
@@ -103,7 +103,7 @@ public class SiteController {
         LOGGER.debug("submit du formulaire commentaire");
 
         if (result.hasErrors()){
-            /** Garder la liste des sites de l'utilisateur */
+            /** Garder la liste des secteurs de l'utilisateur */
             majModelSecteur(model,idSite,httpSession);
             commentaire.setMessage("");
             model.addAttribute("commentaire",commentaire);
@@ -115,6 +115,37 @@ public class SiteController {
             model.addAttribute("commentaire",commentaire);
             return "secteurs";
         }
+    }
+    @PostMapping(value = "/secteurs/modifCommentaire")
+    public String modifCommentaireSubmit(Model model, @Valid @ModelAttribute("commentaire") Commentaire commentaire, @RequestParam("idSite") int idSite, HttpSession httpSession,  BindingResult result) {
+
+        LOGGER.debug("modif un commentaire");
+
+        if (result.hasErrors()){
+            /** Garder la liste des secteurs de l'utilisateur */
+            majModelSecteur(model,idSite,httpSession);
+            model.addAttribute("commentaire",commentaire);
+            model.addAttribute("erreurSaisieCommentaire", erreurSaisieCommentaire);
+            return "secteurs";
+        } else {
+            siteService.modifCommentaire(commentaire,idSite);
+            majModelSecteur(model,idSite,httpSession);
+            Commentaire com = new Commentaire();
+            model.addAttribute("commentaire",com);
+            return "secteurs";
+        }
+    }
+    @PostMapping(value = "/secteurs/supprCommentaire")
+    public String supprCommentaireSubmit(Model model, @RequestParam("idCommentaire") int idCommentaire,  @RequestParam("idSite") int idSite,  HttpSession httpSession) {
+
+        LOGGER.debug("suppression du formulaire commentaire");
+
+        siteService.supprCommentaire(idCommentaire,idSite);
+        majModelSecteur(model,idSite,httpSession);
+        Commentaire com = new Commentaire();
+        model.addAttribute("commentaire",com);
+        return "secteurs";
+
     }
 
     @GetMapping("/ajoutsecteur")
@@ -240,19 +271,19 @@ public class SiteController {
         boolean ami = false;
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        if (user != null) {
-            httpSession.setAttribute("userSession",user);
-            Set<Role> roles = user.getRoles();
+        Utilisateur utilisateur = utilisateurService.findUtilisateurByEmail(auth.getName());
+        if (utilisateur != null) {
+            httpSession.setAttribute("utilisateurSession", utilisateur);
+            Set<Role> roles = utilisateur.getRoles();
             for (Role role : roles) {
                 if (role.getRole().equals("ROLE_AMI_ESCALADE")) { ami = true;}
             }
             model.addAttribute("ami", ami);
-            model.addAttribute("user", user);
+            model.addAttribute("utilisateur", utilisateur);
             model.addAttribute("roles", roles);
         } else {
-            User userVide = new User();
-            model.addAttribute("user", userVide);
+            Utilisateur utilisateurVide = new Utilisateur();
+            model.addAttribute("utilisateur", utilisateurVide);
         }
 
         Site site = siteService.getSite(idSite);

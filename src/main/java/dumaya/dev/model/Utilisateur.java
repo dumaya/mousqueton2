@@ -19,12 +19,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "utilisateur")
+public class Utilisateur {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id")
+	@Column(name = "utilisateur_id")
 	private int id;
 	@Column(name = "email")
 	@Email(message = "*Please provide a valid Email")
@@ -44,7 +44,7 @@ public class User {
 	@Column(name = "active")
 	private boolean active;
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "utilisateur_role", joinColumns = @JoinColumn(name = "utilisateur_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 
 	public int getId() {

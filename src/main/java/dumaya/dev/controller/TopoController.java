@@ -3,9 +3,9 @@ package dumaya.dev.controller;
 
 import dumaya.dev.model.Role;
 import dumaya.dev.model.Topo;
-import dumaya.dev.model.User;
+import dumaya.dev.model.Utilisateur;
 import dumaya.dev.service.TopoService;
-import dumaya.dev.service.UserService;
+import dumaya.dev.service.UtilisateurService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class TopoController {
     private TopoService topoService;
 
     @Autowired
-    private UserService userService;
+    private UtilisateurService utilisateurService;
 
     @Value("${erreur.saisie.topo}")
     private String erreurSaisieTopo;
@@ -54,11 +54,11 @@ public class TopoController {
 
     private void majModelAuth (Model model,HttpSession httpSession) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        if (user != null) {
-            httpSession.setAttribute("userSession",user);
-            Set<Role> roles = user.getRoles();
-            model.addAttribute("user", user);
+        Utilisateur utilisateur = utilisateurService.findUtilisateurByEmail(auth.getName());
+        if (utilisateur != null) {
+            httpSession.setAttribute("utilisateurSession", utilisateur);
+            Set<Role> roles = utilisateur.getRoles();
+            model.addAttribute("utilisateur", utilisateur);
             model.addAttribute("roles", roles);
         }
     }
@@ -69,9 +69,9 @@ public class TopoController {
 
         /** Liste des topos de l'utilisateur */
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+        Utilisateur utilisateur = utilisateurService.findUtilisateurByEmail(auth.getName());
 
-        Integer idCourant = user.getId();
+        Integer idCourant = utilisateur.getId();
         List<Topo> topos= topoService.listeMesTopos(idCourant);
 
         model.addAttribute("topos", topos);
@@ -102,9 +102,9 @@ public class TopoController {
             model.addAttribute("erreurSaisieTopo", erreurSaisieTopo);
             return "ajouttopo";
         } else {
-            User user = userService.findUserByEmail(principal.getName());
+            Utilisateur utilisateur = utilisateurService.findUtilisateurByEmail(principal.getName());
 
-            topoService.enregistrer(topo, user);
+            topoService.enregistrer(topo, utilisateur);
             return "redirect:/mestopos";
         }
     }
@@ -153,9 +153,9 @@ public class TopoController {
     public String emprunterTopo(@RequestParam int idTopo, RedirectAttributes ra) {
         LOGGER.debug("bouton emprunter un Topo");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+        Utilisateur utilisateur = utilisateurService.findUtilisateurByEmail(auth.getName());
 
-        topoService.emprunterTopo(idTopo, user);
+        topoService.emprunterTopo(idTopo, utilisateur);
         ra.addFlashAttribute("successFlash", "Demande d'emprunt Topo.");
         return "redirect:/topos";
     }

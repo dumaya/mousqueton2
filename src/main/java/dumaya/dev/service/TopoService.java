@@ -3,7 +3,7 @@ package dumaya.dev.service;
 
 import dumaya.dev.exception.TopoErrorException;
 import dumaya.dev.model.Topo;
-import dumaya.dev.model.User;
+import dumaya.dev.model.Utilisateur;
 import dumaya.dev.repository.TopoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +19,10 @@ public class TopoService {
     /**
      * Enregistrement du formulaire de création de Topo. Seul le nom, le lieu et l'info dispoPret sont obligatoires
      * @param topo un objet de type topo à enregistrer
-     * @param user du user courant
+     * @param utilisateur du utilisateur courant
      */
-    public void enregistrer(Topo topo, User user) {
-        topo.setUserProprietaire(user);
+    public void enregistrer(Topo topo, Utilisateur utilisateur) {
+        topo.setUtilisateurProprietaire(utilisateur);
         topoRepository.save(topo);
     }
 
@@ -30,7 +30,7 @@ public class TopoService {
      * @return liste de tous les topos en base
      */
     public List<Topo> listeTopos() {
-        return topoRepository.findAllByDispoPretTrueAndUserEmprunteurIsNull();
+        return topoRepository.findAllByDispoPretTrueAndUtilisateurEmprunteurIsNull();
     }
 
     /**
@@ -39,7 +39,7 @@ public class TopoService {
      */
     public List<Topo> listeMesTopos(Integer idCourant)
     {
-        return topoRepository.findAllByUserProprietaire_Id(idCourant);
+        return topoRepository.findAllByUtilisateurProprietaire_Id(idCourant);
     }
 
     /**
@@ -47,7 +47,7 @@ public class TopoService {
      */
 
     public void changeDispo(int id) {
-        Topo topo = topoRepository.findByIdAndUserEmprunteurIsNull(id);
+        Topo topo = topoRepository.findByIdAndUtilisateurEmprunteurIsNull(id);
         if (topo.isDispoPret()){
             topo.setDispoPret(false);
         } else {
@@ -60,21 +60,21 @@ public class TopoService {
      * @param id Supprimer un topo par son id
      */
     public void supprimerDispo(int id) {
-        Topo topo = topoRepository.findByIdAndUserEmprunteurIsNull(id);
+        Topo topo = topoRepository.findByIdAndUtilisateurEmprunteurIsNull(id);
         topoRepository.delete(topo);
     }
 
     /**
      * Faire une demande d'emprunt
      * @param idTopo
-     * @param user
+     * @param utilisateur
      */
-    public void emprunterTopo(int idTopo, User user) {
-        Topo topo = topoRepository.findByIdAndDispoPretTrueAndUserEmprunteurIsNull(idTopo);
+    public void emprunterTopo(int idTopo, Utilisateur utilisateur) {
+        Topo topo = topoRepository.findByIdAndDispoPretTrueAndUtilisateurEmprunteurIsNull(idTopo);
         if (topo == null) {
             throw new TopoErrorException();
         }
-        topo.setUserEmprunteur(user);
+        topo.setUtilisateurEmprunteur(utilisateur);
         topoRepository.save(topo);
     }
 
@@ -83,7 +83,7 @@ public class TopoService {
      * @param idTopo
      */
     public void accepterEmprunt(int idTopo) {
-        Topo topo = topoRepository.findByIdAndUserEmprunteurIsNotNull(idTopo);
+        Topo topo = topoRepository.findByIdAndUtilisateurEmprunteurIsNotNull(idTopo);
         topo.setDispoPret(false);
         topoRepository.save(topo);
     }
@@ -92,9 +92,9 @@ public class TopoService {
      * @param idTopo
      */
     public void retourEmprunt(int idTopo) {
-        Topo topo = topoRepository.findByIdAndUserEmprunteurIsNotNull(idTopo);
+        Topo topo = topoRepository.findByIdAndUtilisateurEmprunteurIsNotNull(idTopo);
         topo.setDispoPret(true);
-        topo.setUserEmprunteur(null);
+        topo.setUtilisateurEmprunteur(null);
         topoRepository.save(topo);
     }
 

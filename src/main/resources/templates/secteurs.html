@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>Mousqueton</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-    <link th:href="@{css/mousqueton.css}" rel="stylesheet"/>
+    <link th:href="@{css/mousqueton.css}" href="../static/css/mousqueton.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container container-fluid">
@@ -124,32 +124,48 @@
                 <h3>Commentaires</h3>
             </div>
             <div class="panel" th:each="commentaire : ${site.getCommentaires()}">
-                <div class="panel-heading">
-                    <small th:utext="${commentaire.userCommentaire.email} + ' le : ' + ${commentaire.dateMaj}">auteur
+                <span th:if="${ami} != true">
+                    <div class="panel-heading">
+                        <small th:utext="${commentaire.utilisateurCommentaire.email} + ' le : ' + ${commentaire.dateMaj}">auteur
                         date
-                    </small>
-                </div>
-                <div th:utext="${commentaire.message}">...</div>
+                        </small>
+                    </div>
+                    <div th:utext="${commentaire.message}">...</div>
+                </span>
                 <span th:if="${ami} == true">
-                        <form data-toggle="validator" role="form" th:object="${commentaire}"
-                              th:action="@{/secteurs/supprimerCommentaire}" method="post">
+                        <form action="#" th:action="@{/secteurs/modifCommentaire}" th:object="${commentaire}" method="post">
+                            <div class="panel-heading">
+                                <small th:utext="${commentaire.utilisateurCommentaire.email} + ' le : ' + ${commentaire.dateMaj}">auteur
+                                date
+                                </small>
+                            </div>
+                            <div th:utext="${commentaire.message}">...</div>
+                            <input type ="text" th:field="${commentaire.message}" id="message">
+                            <input type="hidden" th:value="${commentaire.id}" name="id"/>
+                            <input type="hidden" th:value="${site.id}" name="idSite"/>
+                            <input type="hidden" th:value="${utilisateur.email}" name="email"/>
+                            <button type="submit" class="btn btn-secondary">Modifier</button>
+                        </form>
+                        <form action="#" th:action="@{/secteurs/supprCommentaire}" th:object="${commentaire}" method="post">
                             <input type="hidden" th:value="${commentaire.id}" name="idCommentaire"/>
+                            <input type="hidden" th:value="${site.id}" name="idSite"/>
+                            <input type="hidden" th:value="${utilisateur.email}" name="email"/>
                             <button type="submit" class="btn btn-secondary">Supprimer</button>
                         </form>
-                    </span>
+                </span>
             </div>
-            <span th:if="${user.email} != null">
+            <span th:if="${utilisateur.email} != null">
                 <form data-toggle="validator" role="form" th:object="${commentaire}" th:action="@{/secteurs/ajoutCommentaire}" method="post">
                 <div class="form-group">
                     <label for="message">Commentaire</label>
-                    <input type="text" class="form-control" th:field="*{message}" id="message"/>
+                    <input type="text" class="form-control" th:field="*{message}" id="message" required="required"/>
                 </div>
                     <input type="hidden" th:value="${site.id}" name="idSite"/>
-                    <input type="hidden" th:value="${user.email}" name="email"/>
+                    <input type="hidden" th:value="${utilisateur.email}" name="email"/>
                     <button type="submit" class="btn btn-secondary">Ecrire un commentaire</button>
                 </form>
             </span>
-            <span th:if="${user.email} == null">
+            <span th:if="${utilisateur.email} == null">
                 <form th:action="@{/login}" method="get">
 		            <button class="btn btn-md btn-warning btn-block" type="Submit">Se connecter pour écrire un message</button>
 	            </form>

@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 
 @Entity
@@ -24,7 +23,7 @@ public class Commentaire implements Serializable {
     private Date dateMaj;
 
     @ManyToOne
-    private User userCommentaire;
+    private Utilisateur utilisateurCommentaire;
 
     @ManyToOne
     private Site site;
@@ -57,11 +56,11 @@ public class Commentaire implements Serializable {
         this.site = site;
     }
 
-    public User getUserCommentaire() {
-        return userCommentaire;
+    public Utilisateur getUtilisateurCommentaire() {
+        return utilisateurCommentaire;
     }
 
-    public void setUserCommentaire(User userCommentaire) {
-        this.userCommentaire = userCommentaire;
+    public void setUtilisateurCommentaire(Utilisateur utilisateurCommentaire) {
+        this.utilisateurCommentaire = utilisateurCommentaire;
     }
 }

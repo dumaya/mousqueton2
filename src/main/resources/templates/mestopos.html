@@ -33,14 +33,14 @@
                     <td th:utext="${topo.dispoPret} ? 'Oui' : 'Non'">...</td>
 
                     <td>
-                        <span th:if="${topo.userEmprunteur} == null">
+                        <span th:if="${topo.utilisateurEmprunteur} == null">
                             <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/mestopos/modifDispoPret}" method="post">
                                 <input type="hidden"  th:value="${topo.id}" name="idTopo"/>
                                 <button type="submit" class="btn btn-secondary">Rendre dispo / indispo</button>
                             </form>
                         </span>
                         <span th:if="${topo.dispoPret}">
-                            <span th:if="${topo.userEmprunteur} != null">
+                            <span th:if="${topo.utilisateurEmprunteur} != null">
                                 <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/mestopos/accepterEmprunt}" method="post">
                                     <input type="hidden"  th:value="${topo.id}" name="idTopo"/>
                                     <button type="submit" class="btn btn-warning">Accepter emprunt</button>
@@ -48,7 +48,7 @@
                             </span>
                         </span>
                         <span th:if="!${topo.dispoPret}">
-                            <span th:if="${topo.userEmprunteur} != null">
+                            <span th:if="${topo.utilisateurEmprunteur} != null">
                                 <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/mestopos/retourEmprunt}" method="post">
                                     <input type="hidden"  th:value="${topo.id}" name="idTopo"/>
                                     <button type="submit" class="btn btn-success">Retour emprunt</button>
@@ -57,11 +57,11 @@
                         </span>
                     </td>
                     <form data-toggle="validator" role="form" th:object="${topo}" th:action="@{/mestopos/supprimerTopo}" method="post">
-                        <td th:if="${topo.userEmprunteur} == null">
+                        <td th:if="${topo.utilisateurEmprunteur} == null">
                             <input type="hidden"  th:value="${topo.id}" name="idTopo"/>
                             <button type="submit" class="btn btn-primary">Supprimer</button>
                         </td>
-                        <td th:if="${topo.userEmprunteur} != null">Emprunt en cours
+                        <td th:if="${topo.utilisateurEmprunteur} != null">Emprunt en cours
                         </td>
                     </form>
                 </tr>

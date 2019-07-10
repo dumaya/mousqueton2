@@ -2,6 +2,8 @@ package dumaya.dev.service;
 
 import dumaya.dev.model.*;
 import dumaya.dev.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,12 @@ public class SiteService {
     @Autowired
     private LongueurRepository longueurRepository;
     @Autowired
-    private UserRepository userRepository;
+    private UtilisateurRepository utilisateurRepository;
     @Autowired
     private CommentaireRepository commentaireRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SiteService.class);
+
 
     /**
      * @return liste de tous les topos en base
@@ -114,8 +119,8 @@ public class SiteService {
 
     public void ajoutCommentaire(Commentaire commentaire, int idSite, String email) {
         Site site=siteRepository.findById(idSite);
-        User user=userRepository.findByEmail(email);
-        commentaire.setUserCommentaire(user);
+        Utilisateur utilisateur = utilisateurRepository.findByEmail(email);
+        commentaire.setUtilisateurCommentaire(utilisateur);
         commentaire.setSite(site);
         commentaireRepository.save(commentaire);
         List<Commentaire> commentaires = site.getCommentaires();
@@ -123,5 +128,19 @@ public class SiteService {
         site.setCommentaires(commentaires);
         siteRepository.save(site);
 
+    }
+
+    public void supprCommentaire(int idCommentaire, int idSite) {
+        Site site=siteRepository.findById(idSite);
+        Commentaire commentaire=commentaireRepository.findById(idCommentaire);
+        commentaireRepository.delete(commentaire);
+        siteRepository.save(site);
+    }
+    public void modifCommentaire(Commentaire commentaire, int idSite) {
+        Site site=siteRepository.findById(idSite);
+        Commentaire commModifie = commentaireRepository.findById(commentaire.getId());
+        commModifie.setMessage(commentaire.getMessage());
+        commentaireRepository.save(commModifie);
+        siteRepository.save(site);
     }
 }

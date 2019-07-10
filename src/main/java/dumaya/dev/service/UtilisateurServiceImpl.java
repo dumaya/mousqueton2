@@ -7,8 +7,9 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import dumaya.dev.model.Utilisateur;
 import dumaya.dev.repository.RoleRepository;
-import dumaya.dev.repository.UserRepository;
+import dumaya.dev.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,53 +20,52 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dumaya.dev.model.Role;
-import dumaya.dev.model.User;
 
-@Service("userService")
-public class UserServiceImpl implements UserService, UserDetailsService {
+@Service("utilisateurService")
+public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UtilisateurRepository utilisateurRepository;
 	@Autowired
 	private RoleRepository roleRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	
-	public User findUserByEmail(String email) {
-		return userRepository.findByEmail(email);
+	public Utilisateur findUtilisateurByEmail(String email) {
+		return utilisateurRepository.findByEmail(email);
 	}
 
 	
-	public void saveUser(User user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setActive(true);
+	public void saveUtilisateur(Utilisateur utilisateur) {
+		utilisateur.setPassword(bCryptPasswordEncoder.encode(utilisateur.getPassword()));
+		utilisateur.setActive(true);
 		HashSet<Role> roles = new HashSet<Role>();
 		Role role = new Role();
 		role.setRole("ADMIN");
 		roles.add(role);
-		user.setRoles(roles);
-		userRepository.save(user);
+		utilisateur.setRoles(roles);
+		utilisateurRepository.save(utilisateur);
 	}
 	
 	/*
 	 * INSERT INTO `role` VALUES (1,'ADMIN');
 	@Override
-	public void saveUser(User user) {
+	public void saveUser(Utilisateur user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive(1);
         Role userRole = roleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-		userRepository.save(user);
+		utilisateurRepository.save(user);
 	}
 	*/
 	
 	
 	@Transactional
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(userName);
-		List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
-		return buildUserForAuthentication(user, authorities);
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(userName);
+		List<GrantedAuthority> authorities = getUserAuthority(utilisateur.getRoles());
+		return buildUserForAuthentication(utilisateur, authorities);
 	}
 
 	private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return grantedAuthorities;
 	}
 
-	private UserDetails buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.isActive(), true, true, true, authorities);
+	private UserDetails buildUserForAuthentication(Utilisateur utilisateur, List<GrantedAuthority> authorities) {
+		return new org.springframework.security.core.userdetails.User(utilisateur.getEmail(), utilisateur.getPassword(), utilisateur.isActive(), true, true, true, authorities);
 	}
 }

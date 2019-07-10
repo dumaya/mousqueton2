@@ -12,13 +12,13 @@ public interface TopoRepository extends JpaRepository<Topo, Long> {
 
     Topo findById(int id);
 
-    List<Topo> findAllByDispoPretTrueAndUserEmprunteurIsNull();
+    List<Topo> findAllByDispoPretTrueAndUtilisateurEmprunteurIsNull();
 
-    Topo findByIdAndDispoPretTrueAndUserEmprunteurIsNull(int id);
+    Topo findByIdAndDispoPretTrueAndUtilisateurEmprunteurIsNull(int id);
 
-    Topo findByIdAndUserEmprunteurIsNull(int id);
+    Topo findByIdAndUtilisateurEmprunteurIsNull(int id);
 
-    List<Topo> findAllByUserProprietaire_Id(int idCourant);
+    List<Topo> findAllByUtilisateurProprietaire_Id(int idCourant);
 
-    Topo findByIdAndUserEmprunteurIsNotNull(int id);
+    Topo findByIdAndUtilisateurEmprunteurIsNotNull(int id);
 }

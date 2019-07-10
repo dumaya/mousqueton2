@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
     <title>Mousqueton</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link th:href="@{/content/mousqueton.css}"  rel="stylesheet" />
+    <link th:href="@{/content/mousqueton.css}" href="../static/css/mousqueton.css" rel="stylesheet" />
   </head>
   <body>
   <div th:fragment="menu">
@@ -24,12 +24,12 @@
 
         <!-- this is footer -->
         © 2019 dumaya.dev
-        <div th:if="${user != null}">
-          Utilisateur connecté: <span th:text="${user.getEmail()}"></span>
+        <div th:if="${utilisateur != null}">
+          Utilisateur connecté: <span th:text="${utilisateur.getEmail()}"></span>
           | Roles: <div th:each ="role : ${roles}" th:utext="${role.getRole()} + ' '" th:remove="tag"></div>
           | <a th:href="@{/logout}">Se deconnecter</a>
         </div>
-        <div th:if="${user == null}">
+        <div th:if="${utilisateur == null}">
           <a th:href="@{/login}">Se connecter</a>
         </div>
 

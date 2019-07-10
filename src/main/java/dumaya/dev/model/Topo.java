@@ -38,10 +38,10 @@ public class Topo implements Serializable {
     private String auteur;
 
     @ManyToOne
-    private User userProprietaire;
+    private Utilisateur utilisateurProprietaire;
 
     @ManyToOne
-    private User userEmprunteur;
+    private Utilisateur utilisateurEmprunteur;
 
 
     public Integer getId() {
@@ -99,19 +99,19 @@ public class Topo implements Serializable {
         this.dispoPret = dispoPret;
     }
 
-    public User getUserProprietaire() {
-        return userProprietaire;
+    public Utilisateur getUtilisateurProprietaire() {
+        return utilisateurProprietaire;
     }
 
-    public void setUserProprietaire(User userProprietaire) {
-        this.userProprietaire = userProprietaire;
+    public void setUtilisateurProprietaire(Utilisateur utilisateurProprietaire) {
+        this.utilisateurProprietaire = utilisateurProprietaire;
     }
 
-    public User getUserEmprunteur() {
-        return userEmprunteur;
+    public Utilisateur getUtilisateurEmprunteur() {
+        return utilisateurEmprunteur;
     }
 
-    public void setUserEmprunteur(User userEmprunteur) {
-        this.userEmprunteur = userEmprunteur;
+    public void setUtilisateurEmprunteur(Utilisateur utilisateurEmprunteur) {
+        this.utilisateurEmprunteur = utilisateurEmprunteur;
     }
 }

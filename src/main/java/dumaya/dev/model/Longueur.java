@@ -19,7 +19,7 @@ public class Longueur implements Serializable {
     @Column(length = 200)
     private String description;
 
-    @Column(length = 2)
+    @Column(nullable = false, length = 2)
     private String cotation;
 
     @Column(name = "dateMaj", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)

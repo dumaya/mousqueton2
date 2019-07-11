@@ -98,7 +98,7 @@ public class SiteController {
     }
 
     @PostMapping(value = "/secteurs/ajoutCommentaire")
-    public String ajouterCommentaireSubmit(Model model, @Valid @ModelAttribute("commentaire") Commentaire commentaire, @RequestParam("idSite") int idSite,  @RequestParam("email") String email,HttpSession httpSession,  BindingResult result) {
+    public String ajouterCommentaireSubmit(Model model, @Valid @ModelAttribute("commentaire") Commentaire commentaire,  BindingResult result, @RequestParam("idSite") int idSite,  @RequestParam("email") String email,HttpSession httpSession) {
 
         LOGGER.debug("submit du formulaire commentaire");
 
@@ -118,7 +118,7 @@ public class SiteController {
         }
     }
     @PostMapping(value = "/secteurs/modifCommentaire")
-    public String modifCommentaireSubmit(Model model, @Valid @ModelAttribute("commentaire") Commentaire commentaire, @RequestParam("idSite") int idSite, HttpSession httpSession,  BindingResult result) {
+    public String modifCommentaireSubmit(Model model, @Valid @ModelAttribute("commentaire") Commentaire commentaire,  BindingResult result, @RequestParam("idSite") int idSite, HttpSession httpSession) {
 
         LOGGER.debug("modif un commentaire");
 
@@ -162,17 +162,22 @@ public class SiteController {
     }
 
     @PostMapping(value = "/ajoutsecteur")
-    public String proposerSecteurSubmit(Model model, @Valid @ModelAttribute("secteur") Secteur secteur, @RequestParam("idSite") int idSite,HttpSession httpSession, BindingResult result) {
+    public String proposerSecteurSubmit(Model model, @Valid @ModelAttribute("secteur") Secteur secteur, BindingResult result, @RequestParam("idSite") int idSite,HttpSession httpSession) {
 
         LOGGER.debug("submit du formulaire secteur");
 
         if (result.hasErrors()){
             LOGGER.debug("erreur du formulaire secteur");
             model.addAttribute("erreurSaisieSecteur", erreurSaisieSecteur);
+            Secteur secteurNouveau = new Secteur();
+            model.addAttribute("site", siteService.getSite(idSite));
+            model.addAttribute("secteur", secteurNouveau);
             return "ajoutsecteur";
         } else {
             siteService.ajoutSecteur(idSite, secteur);
             majModelSecteur(model,idSite,httpSession);
+            Commentaire com = new Commentaire();
+            model.addAttribute("commentaire",com);
             return "secteurs";
         }
     }
@@ -196,19 +201,22 @@ public class SiteController {
         model.addAttribute("site", siteService.getSite(idSite));
         model.addAttribute("secteur", siteService.getSecteur(idSecteur));
         model.addAttribute("voie", voie);
-
         return "ajoutvoie";
     }
 
     @PostMapping(value = "/ajoutvoie")
-    public String proposerVoieSubmit(Model model, @Valid @ModelAttribute("voie") Voie voie, @RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur, BindingResult result) {
+    public String proposerVoieSubmit(Model model, @Valid @ModelAttribute("voie") Voie voie, BindingResult result, @RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur) {
 
         LOGGER.debug("submit du formulaire voie");
 
         if (result.hasErrors()){
             LOGGER.debug("erreur du formulaire voie");
             model.addAttribute("erreurSaisieVoie", erreurSaisieVoie);
-            return "voies";
+            Site site = siteService.getSite(idSite);
+            Secteur secteur = siteService.getSecteur(idSecteur);
+            model.addAttribute("site", site);
+            model.addAttribute("secteur", secteur);
+            return "ajoutvoie";
         } else {
             siteService.ajoutVoie(idSecteur, voie);
             Site site = siteService.getSite(idSite);
@@ -243,14 +251,19 @@ public class SiteController {
         return "ajoutlongueur";
     }
     @PostMapping(value = "/ajoutlongueur")
-    public String proposerLongueurSubmit(Model model, @Valid @ModelAttribute("longueur") Longueur longueur, @RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur,@RequestParam("idVoie") int idVoie, BindingResult result) {
+    public String proposerLongueurSubmit(Model model, @Valid @ModelAttribute("longueur") Longueur longueur, BindingResult result, @RequestParam("idSite") int idSite,@RequestParam("idSecteur") int idSecteur,@RequestParam("idVoie") int idVoie) {
 
         LOGGER.debug("submit du formulaire longueur");
 
         if (result.hasErrors()){
             LOGGER.debug("erreur du formulaire longueur");
             model.addAttribute("erreurSaisieLongueur", erreurSaisieLongueur);
-            return "longueurs";
+            Longueur longueurNouveau = new Longueur();
+            model.addAttribute("site", siteService.getSite(idSite));
+            model.addAttribute("secteur", siteService.getSecteur(idSecteur));
+            model.addAttribute("voie", siteService.getVoie(idVoie));
+            model.addAttribute("longueur", longueurNouveau);
+            return "ajoutlongueur";
         } else {
             siteService.ajoutLongueur(idVoie, longueur);
             model.addAttribute("site", siteService.getSite(idSite));

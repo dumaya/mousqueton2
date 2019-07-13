@@ -11,6 +11,7 @@ import dumaya.dev.model.Utilisateur;
 import dumaya.dev.repository.RoleRepository;
 import dumaya.dev.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,8 @@ public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsSe
 	private final RoleRepository roleRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	@Autowired
+	public UtilisateurServiceImpl(@Lazy UtilisateurRepository utilisateurRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.utilisateurRepository = utilisateurRepository;
 		this.roleRepository = roleRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;

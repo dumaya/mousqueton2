@@ -27,11 +27,9 @@ public class SiteController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SiteController.class);
 
-    @Autowired
-    private SiteService siteService;
+    private final SiteService siteService;
 
-    @Autowired
-    private UtilisateurService utilisateurService;
+    private final UtilisateurService utilisateurService;
 
     @Value("${erreur.saisie.site}")
     private String erreurSaisieSite;
@@ -47,6 +45,11 @@ public class SiteController {
 
     @Value("${erreur.saisie.commentaire}")
     private String erreurSaisieCommentaire;
+
+    public SiteController(SiteService siteService, UtilisateurService utilisateurService) {
+        this.siteService = siteService;
+        this.utilisateurService = utilisateurService;
+    }
 
     @GetMapping("/sites")
     public String affichelesSites(Model model) {

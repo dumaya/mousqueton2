@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class TopoService {
 
-    @Autowired
-    private TopoRepository topoRepository;
+    private final TopoRepository topoRepository;
+
+    public TopoService(TopoRepository topoRepository) {
+        this.topoRepository = topoRepository;
+    }
 
     /**
      * Enregistrement du formulaire de création de Topo. Seul le nom, le lieu et l'info dispoPret sont obligatoires

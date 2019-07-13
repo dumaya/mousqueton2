@@ -24,14 +24,17 @@ import dumaya.dev.model.Role;
 @Service("utilisateurService")
 public class UtilisateurServiceImpl implements UtilisateurService, UserDetailsService {
 
-	@Autowired
-	private UtilisateurRepository utilisateurRepository;
-	@Autowired
-	private RoleRepository roleRepository;
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final UtilisateurRepository utilisateurRepository;
+	private final RoleRepository roleRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	
+	public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.utilisateurRepository = utilisateurRepository;
+		this.roleRepository = roleRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
+
 	public Utilisateur findUtilisateurByEmail(String email) {
 		return utilisateurRepository.findByEmail(email);
 	}

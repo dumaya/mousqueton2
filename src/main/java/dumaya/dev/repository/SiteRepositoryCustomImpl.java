@@ -14,8 +14,12 @@ import java.util.List;
 
 @Repository
 public class SiteRepositoryCustomImpl implements SiteRepositoryCustom{
-    @Autowired
+    final
     EntityManager em;
+
+    public SiteRepositoryCustomImpl(EntityManager em) {
+        this.em = em;
+    }
 
     /**
      * recherche multicriteres

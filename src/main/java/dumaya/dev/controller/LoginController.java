@@ -18,8 +18,11 @@ import dumaya.dev.service.UtilisateurService;
 @Controller
 public class LoginController {
 	
-	@Autowired
-	private UtilisateurService utilisateurService;
+	private final UtilisateurService utilisateurService;
+
+	public LoginController(UtilisateurService utilisateurService) {
+		this.utilisateurService = utilisateurService;
+	}
 
 	@RequestMapping(value={"/login"}, method = RequestMethod.GET)
 	public ModelAndView login(Model model){

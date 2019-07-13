@@ -28,17 +28,20 @@ import java.util.Set;
 public class TopoController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TopoController.class);
 
-    @Autowired
-    private TopoService topoService;
+    private final TopoService topoService;
 
-    @Autowired
-    private UtilisateurService utilisateurService;
+    private final UtilisateurService utilisateurService;
 
     @Value("${erreur.saisie.topo}")
     private String erreurSaisieTopo;
 
     @Value("${erreur.bouton.topo}")
     private String erreurBoutonTopo;
+
+    public TopoController(TopoService topoService, UtilisateurService utilisateurService) {
+        this.topoService = topoService;
+        this.utilisateurService = utilisateurService;
+    }
 
     @RequestMapping("/")
     public String racine(Model model, HttpSession httpSession) {

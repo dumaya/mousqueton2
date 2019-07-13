@@ -14,20 +14,23 @@ import java.util.List;
 @Service
 public class SiteService {
 
-    @Autowired
-    private SiteRepository siteRepository;
-    @Autowired
-    private SecteurRepository secteurRepository;
-    @Autowired
-    private VoieRepository voieRepository;
-    @Autowired
-    private LongueurRepository longueurRepository;
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
-    @Autowired
-    private CommentaireRepository commentaireRepository;
+    private final SiteRepository siteRepository;
+    private final SecteurRepository secteurRepository;
+    private final VoieRepository voieRepository;
+    private final LongueurRepository longueurRepository;
+    private final UtilisateurRepository utilisateurRepository;
+    private final CommentaireRepository commentaireRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SiteService.class);
+
+    public SiteService(SiteRepository siteRepository, SecteurRepository secteurRepository, VoieRepository voieRepository, LongueurRepository longueurRepository, UtilisateurRepository utilisateurRepository, CommentaireRepository commentaireRepository) {
+        this.siteRepository = siteRepository;
+        this.secteurRepository = secteurRepository;
+        this.voieRepository = voieRepository;
+        this.longueurRepository = longueurRepository;
+        this.utilisateurRepository = utilisateurRepository;
+        this.commentaireRepository = commentaireRepository;
+    }
 
 
     /**

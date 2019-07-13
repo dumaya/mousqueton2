@@ -15,6 +15,8 @@ Maven 3.6
 Installer et déployer l'application :
 `mvn clean install spring-boot:run`
 
+ou, en ligne de commande sur le war : `java -jar mousqueton-0.0.1-SNAPSHOT.war`
+
 Application accessible par : http://localhost:8088/
 
 Sources disponibles sur : https://github.com/dumaya/mousqueton2
